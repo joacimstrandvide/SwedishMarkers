@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/SwedishMarkers/static/css/main.c3117e63.css",
+    "main.js": "/SwedishMarkers/static/js/main.991f8bb4.js",
+    "index.html": "/SwedishMarkers/index.html",
+    "main.c3117e63.css.map": "/SwedishMarkers/static/css/main.c3117e63.css.map",
+    "main.991f8bb4.js.map": "/SwedishMarkers/static/js/main.991f8bb4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c3117e63.css",
+    "static/js/main.991f8bb4.js"
+  ]
+}
