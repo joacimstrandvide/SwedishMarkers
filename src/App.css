@@ -1,38 +1,282 @@
-.App {
-  text-align: center;
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#root {
+    height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Error page */
+.error {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    padding: 2rem;
+    margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.leaflet-container {
+    height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.custom-popup .leaflet-popup-content-wrapper {
+    background: #f3f3f3;
+    color: #000;
+    font-size: 14px;
+}
+.custom-popup .leaflet-popup-content-wrapper a {
+    color: rgba(255, 255, 255, 0.5);
+}
+.custom-popup .leaflet-popup-tip-container {
+    width: 30px;
+    height: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Set width and height to match screen size */
+html,
+body,
+#map {
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Header */
+header {
+    background-color: #000;
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0.5rem;
+    color: white;
+    text-align: center;
+}
+/* Header Main title */
+h1 {
+    color: #006aa7;
+}
+
+strong {
+    color: #fecc02;
+}
+
+.leaflet-popup-content > img {
+    max-height: 16rem;
+}
+
+/* Get rid of weird border on zoom buttons */
+html
+    body
+    div#map.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom
+    div.leaflet-control-container
+    div.leaflet-top.leaflet-left
+    div.leaflet-control-zoom.leaflet-bar.leaflet-control {
+    border: none;
+}
+
+/* Make sure that map and distance markers are behind when the menu is open */
+div.leaflet-top {
+    z-index: 800;
+}
+
+/* Cluster icon */
+div.leaflet-marker-icon {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #000;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+
+/* Find me Button */
+/* #locateButton {
+    padding: 0.4rem;
+    background-color: #fff;
+    border: 1px solid #fecc02;
+    border-radius: 5px;
+    font-family: 'Oswald', sans-serif;
+    position: fixed;
+    top: 2.3rem;
+    right: 6rem;
+} */
+
+/* For Mobile */
+@media screen and (max-width: 450px) {
+    #locateButton {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin: 0.5rem;
+    }
+}
+
+/* About us page */
+section {
+    text-align: center;
+}
+
+section > h2 {
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 4rem;
+}
+
+section > p {
+    font-family: 'Nunito', sans-serif;
+}
+
+section > img {
+    border-radius: 20px;
+    margin: 1rem;
+    width: 60vw;
+}
+
+/* For Mobile */
+@media screen and (max-width: 450px) {
+    section > img {
+        width: 90vw;
+    }
+}
+
+/* For Ipad */
+@media screen and (min-width: 500px) and (max-width: 1000px) {
+    .section > img {
+        width: 80vw;
+    }
+}
+
+/* Hamburger Navbar */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    background-color: #000;
+}
+
+li {
+    margin: 1rem;
+}
+
+/* All links */
+a {
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    text-decoration: none;
+    margin-right: 1rem;
+    padding: 5px;
+    border-bottom: 2px solid #fff;
+    transition: 0.4s;
+}
+
+a:hover {
+    border-color: #fecc02;
+}
+
+.container-menu {
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.menu-button {
+    display: block;
+    color: #000;
+    position: fixed;
+    top: 2.5rem;
+    right: 2rem;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+#menu-toggle:checked + .menu-button .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+#menu-toggle:checked + .menu-button .bar:nth-child(2) {
+    opacity: 0;
+}
+
+#menu-toggle:checked + .menu-button .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #000;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.4s;
+}
+
+#menu-toggle:checked + .menu-button ~ .navbar {
+    right: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 20px;
+    margin-top: 4rem;
+}
+
+.navbar li {
+    margin-bottom: 10px;
+}
+
+.navbar h4 {
+    margin-top: 5rem;
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #006aa7;
+}
+
+/* Footer */
+#footer {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2.5vh 0 0 0;
+    padding: 1.2rem;
+    background-color: #000;
+    font-family: 'Nunito', sans-serif;
+}
+
+#footer h3 {
+    color: #fff;
+}
+
+#footer a {
+    color: #fff;
+    text-decoration: none;
 }
