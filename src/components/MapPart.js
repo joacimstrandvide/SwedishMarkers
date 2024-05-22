@@ -14,7 +14,7 @@ function MapPart() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('data.json', {
+        fetch(process.env.PUBLIC_URL + 'data.json', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -22,6 +22,7 @@ function MapPart() {
         })
             .then((response) => response.json())
             .then((data) => setData(data))
+            console.log(data);
     }, [])
 
     const customIcon = new Icon({
