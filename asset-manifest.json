@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/SwedishMarkers/static/css/main.c3117e63.css",
-    "main.js": "/SwedishMarkers/static/js/main.9ff2ac35.js",
+    "main.js": "/SwedishMarkers/static/js/main.c6430df5.js",
     "index.html": "/SwedishMarkers/index.html",
     "main.c3117e63.css.map": "/SwedishMarkers/static/css/main.c3117e63.css.map",
-    "main.9ff2ac35.js.map": "/SwedishMarkers/static/js/main.9ff2ac35.js.map"
+    "main.c6430df5.js.map": "/SwedishMarkers/static/js/main.c6430df5.js.map"
   },
   "entrypoints": [
     "static/css/main.c3117e63.css",
-    "static/js/main.9ff2ac35.js"
+    "static/js/main.c6430df5.js"
   ]
 }
