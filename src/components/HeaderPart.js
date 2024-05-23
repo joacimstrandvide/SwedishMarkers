@@ -7,14 +7,14 @@ import Error from '../pages/Error.js'
 function HeaderPart() {
     return (
         <>
-            <div class="container-menu">
-                <input type="checkbox" id="menu-toggle" class="menu-toggle" />
-                <label htmlFor="menu-toggle" class="menu-button">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
+            <div className="container-menu">
+                <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+                <label htmlFor="menu-toggle" className="menu-button">
+                    <div className="bar"></div>
+                    <div className="bar"></div>
+                    <div className="bar"></div>
                 </label>
-                <nav class="navbar">
+                <nav className="navbar">
                     <ul>
                         <li>
                             <Link to={'/'}>Hem</Link>

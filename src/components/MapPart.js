@@ -14,35 +14,18 @@ function MapPart() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('data.json', {
+        fetch('SwedishMarkers/data.json', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             }
         })
-            .then((response) => {
-                console.log(response)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`)
-                }
-                return response.text()
-            })
-            .then((text) => {
-                console.log(text)
-                try {
-                    const jsonData = JSON.parse(text)
-                    setData(jsonData)
-                } catch (e) {
-                    console.error('Failed to parse JSON', e)
-                }
-            })
-            .catch((error) => {
-                console.error('Fetch error:', error)
-            })
+            .then((response) => response.json())
+            .then((data) => setData(data))
     }, [])
 
     const customIcon = new Icon({
-        iconUrl: 'img/location.png',
+        iconUrl: 'SwedishMarkers/img/location.png',
         iconSize: [30, 30]
     })
 
