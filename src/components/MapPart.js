@@ -20,9 +20,25 @@ function MapPart() {
                 Accept: 'application/json'
             }
         })
-            .then((response) => response.json())
-            .then((data) => setData(data))
-            console.log(data);
+            .then((response) => {
+                console.log(response)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+                return response.text()
+            })
+            .then((text) => {
+                console.log(text)
+                try {
+                    const jsonData = JSON.parse(text)
+                    setData(jsonData)
+                } catch (e) {
+                    console.error('Failed to parse JSON', e)
+                }
+            })
+            .catch((error) => {
+                console.error('Fetch error:', error)
+            })
     }, [])
 
     const customIcon = new Icon({
