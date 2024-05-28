@@ -14,7 +14,7 @@ function MapPart() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('SwedishMarkers/data.json', {
+        fetch('data.json', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
