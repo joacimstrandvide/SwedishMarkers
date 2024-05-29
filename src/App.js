@@ -14,17 +14,25 @@ function App() {
                     Swedish<strong>Markers</strong>
                 </h1>
                 <Popup
-                    trigger={<button id="open">Läs Mer</button>}
+                    trigger={<button className="open">Om Oss</button>}
                     modal
                     nested
                 >
                     {(close) => (
                         <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
                             <div className="content">
                                 <AboutPart />
                             </div>
-                            <div>
-                                <button id="close" onClick={() => close()}>
+                            <div className="actions">
+                                <button
+                                    className="close-button"
+                                    onClick={() => {
+                                        close()
+                                    }}
+                                >
                                     Stäng
                                 </button>
                             </div>

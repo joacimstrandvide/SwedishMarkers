@@ -11,10 +11,10 @@ function About() {
                     Det enda du behöver göra är att öppna kartan och ta en titt
                     runt omkring dig
                 </p>
-                <img
+                {/* <img
                     src={process.env.PUBLIC_URL + '/img/about.png'}
                     alt="About Map"
-                />
+                /> */}
             </section>
         </>
     )

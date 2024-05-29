@@ -146,18 +146,7 @@ a:hover {
 }
 
 /* Popup Content */
-
-.popup-content {
-    width: 30%;
-}
-
-.content {
-    text-align: center;
-    background-color: #fff;
-    padding: 5px;
-}
-
-#open {
+.open {
     font-family: 'Oswald', sans-serif;
     color: #000;
     border: 2px solid #000;
@@ -171,24 +160,47 @@ a:hover {
     transition: 0.4s;
 }
 
-#open:hover {
+.open:hover {
     border: 2px solid #fecc02;
     border-radius: 10px;
     color: #006aa7;
 }
 
-#close {
-    padding: 0.5rem;
-    font-family: 'Nunito', sans-serif;
-    background-color: #fff;
+.close-button {
+    font-family: 'Oswald', sans-serif;
     color: #000;
+    background-color: #fff;
     border: 2px solid #000;
-    transition: 0.4s ease-in-out;
+    border-radius: 10px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
 }
 
-#close:hover {
-    border-radius: 10px;
-    border: 2px solid red;
+.modal {
+    font-size: 14px;
+}
+.modal > .content {
+    text-align: center;
+    background-color: #fff;
+    padding: 5px;
+}
+.modal > .actions {
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+}
+.modal > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
 }
 
 /* For Mobile */
@@ -197,7 +209,7 @@ a:hover {
         width: 90%;
     }
 
-    #open {
+    .open {
         position: relative;
         top: 0;
         right: 0;
