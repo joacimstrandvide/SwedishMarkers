@@ -25,7 +25,7 @@ function MapPart() {
     }, [])
 
     const customIcon = new Icon({
-        iconUrl: 'SwedishMarkers/img/location.png',
+        iconUrl: 'img/location.png',
         iconSize: [30, 30]
     })
 

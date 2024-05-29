@@ -1,48 +1,38 @@
 import React from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 import FooterPart from './components/FooterPart'
-import Home from './pages/Home.js'
-import About from './pages/About.js'
-import Error from './pages/Error.js'
+import MapPart from './components/MapPart'
+import AboutPart from './components/AboutPart'
 
 function App() {
     return (
         <>
-            <div className="container-menu">
-                <input
-                    type="checkbox"
-                    id="menu-toggle"
-                    className="menu-toggle"
-                />
-                <label htmlFor="menu-toggle" className="menu-button">
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                </label>
-                <nav className="navbar">
-                    <ul>
-                        <li>
-                            <Link to={'/SwedishMarkers'}>Hem</Link>
-                        </li>
-                        <li>
-                            <Link to={'/SwedishMarkers/about'}>Om</Link>
-                        </li>
-                        <h4>Joacim Strandvide 2023</h4>
-                    </ul>
-                </nav>
-            </div>
             <header>
                 <h1>
                     Swedish<strong>Markers</strong>
                 </h1>
+                <Popup
+                    trigger={<button id="open">Läs Mer</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <div className="content">
+                                <AboutPart />
+                            </div>
+                            <div>
+                                <button id="close" onClick={() => close()}>
+                                    Stäng
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </Popup>
             </header>
-            <Routes>
-                <Route path="/SwedishMarkers" element={<Home />} />
-                <Route path="/SwedishMarkers/about" element={<About />} />
-                {/* Error handling */}
-                <Route path="*" element={<Error />} />
-            </Routes>
+            <MapPart />
             <FooterPart />
         </>
     )
