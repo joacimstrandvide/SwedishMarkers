@@ -28,13 +28,13 @@
         "cord": [59.392649777196866, 18.43960338799008],
         "popupTitle": "Syrran & jag",
         "popupContent": "Här finns en trevligt restaurang med bra utsikt över oxdjupet",
-        "icon": "res/img/food.png"
+        "icon": "img/food.png"
     },
     {
         "cord": [59.39745558190266, 18.089594403440376],
         "popupTitle": "Monrads Restaurang",
         "popupContent": "En fantastisk restaurang i Djursholms",
-        "icon": "res/img/food.png"
+        "icon": "img/food.png"
     },
     {
         "cord": [59.43389160612295, 18.30976681269965],
@@ -50,5 +50,11 @@
         "cord": [59.39606788021491, 18.26744435299481],
         "popupTitle": "Rastplats",
         "popupContent": "Här kan man stanna till och ta in bogesunds vackra natur"
+    },
+    {
+        "cord": [59.3329558318277, 18.066213279940236],
+        "popupTitle": "Phil's Burger",
+        "popupContent": "Goda hamburgare mitt i Stockholm",
+        "icon": "img/food.png"
     }
 ]
