@@ -2,7 +2,8 @@
     {
         "cord": [59.40934714559038, 18.305898476279754],
         "popupTitle": "Badställe på Kullö",
-        "popupContent": "Ett trevligt litet badställe på kullö som ligger ganska enskilt"
+        "popupContent": "Ett trevligt litet badställe på kullö som ligger ganska enskilt",
+        "icon": "img/swim.png"
     },
     {
         "cord": [59.419199665038775, 18.289186302306213],
@@ -17,7 +18,8 @@
     {
         "cord": [59.40348970158174, 18.575723336612633],
         "popupTitle": "Ö utanför Grinda",
-        "popupContent": "En vacker ö utanför grinda"
+        "popupContent": "En vacker ö utanför grinda",
+        "icon": "img/boat.png"
     },
     {
         "cord": [59.42691677775014, 18.296913824609547],
@@ -28,27 +30,29 @@
         "cord": [59.392649777196866, 18.43960338799008],
         "popupTitle": "Syrran & jag",
         "popupContent": "Här finns en trevligt restaurang med bra utsikt över oxdjupet",
-        "icon": "res/img/food.png"
-    },
-    {
-        "cord": [59.39745558190266, 18.089594403440376],
-        "popupTitle": "Monrads Restaurang",
-        "popupContent": "En fantastisk restaurang i Djursholms",
-        "icon": "res/img/food.png"
+        "icon": "img/food.png"
     },
     {
         "cord": [59.43389160612295, 18.30976681269965],
         "popupTitle": "Badviken",
-        "popupContent": "Här kan man bada, grilla eller sätta kajak i havet"
-    },
-    {
-        "cord": [59.40338650372035, 18.34738680415001],
-        "popupTitle": "Vaxholms Kyrka",
-        "popupContent": "Fin kyrka mitt i Vaxholm"
+        "popupContent": "Här kan man bada, grilla eller sätta kajak i havet",
+        "icon": "img/swim.png"
     },
     {
         "cord": [59.39606788021491, 18.26744435299481],
         "popupTitle": "Rastplats",
         "popupContent": "Här kan man stanna till och ta in bogesunds vackra natur"
+    },
+    {
+        "cord": [59.40376428340952, 18.205928188516705],
+        "popupTitle": "Träsksjön",
+        "popupContent": "Vacker Sjö där man kan simma",
+        "icon": "img/swim.png"
+    },
+    {
+        "cord": [59.43381477174995, 18.426831341167407],
+        "popupTitle": "Båt ställe",
+        "popupContent": "trevligt",
+        "icon": "img/boat.png"
     }
 ]

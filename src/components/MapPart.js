@@ -62,19 +62,26 @@ function MapPart() {
                         chunkedLoading
                         iconCreateFunction={createClusterIcon}
                     >
-                        {data.map((marker, index) => (
-                            <div key={index}>
+                        {data.map((marker, index) => {
+                            const icon = marker.icon
+                                ? new Icon({
+                                      iconUrl: marker.icon,
+                                      iconSize: [30, 30]
+                                  })
+                                : customIcon
+                            return (
                                 <Marker
+                                    key={index}
                                     position={marker.cord}
-                                    icon={customIcon}
+                                    icon={icon}
                                 >
                                     <Popup>
                                         <h3>{marker.popupTitle}</h3>
                                         <p>{marker.popupContent}</p>
                                     </Popup>
                                 </Marker>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </MarkerClusterGroup>
                 </LayersControl>
             </MapContainer>
