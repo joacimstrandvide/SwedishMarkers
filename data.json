@@ -8,7 +8,8 @@
     {
         "cord": [59.419199665038775, 18.289186302306213],
         "popupTitle": "Lillskär",
-        "popupContent": "En vacker liten ö med fungerande brygga och plats för camping, samt ett gammalt fort"
+        "popupContent": "En vacker liten ö med fungerande brygga och plats för camping, samt ett gammalt fort",
+        "icon": "img/boat.png"
     },
     {
         "cord": [59.42098048576034, 18.301259674296443],
@@ -51,8 +52,8 @@
     },
     {
         "cord": [59.43381477174995, 18.426831341167407],
-        "popupTitle": "Båt ställe",
-        "popupContent": "trevligt",
+        "popupTitle": "Kalvholmen",
+        "popupContent": "Fint ställe att lägga till med båt",
         "icon": "img/boat.png"
     }
 ]
