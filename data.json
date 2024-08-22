@@ -55,5 +55,22 @@
         "popupTitle": "Kalvholmen",
         "popupContent": "Fint ställe att lägga till med båt",
         "icon": "img/boat.png"
+    },
+    {
+        "cord": [59.44175486617764, 18.362580960338413],
+        "popupTitle": "Östra Trällhavsgrundet",
+        "popupContent": "Fin ö i mitten av trälhavet som nu är full av skarvar"
+    },
+    {
+        "cord": [59.423217, 18.380073],
+        "popupTitle": "Ekholmen",
+        "popupContent": "Ö med fin strand där man kanske kan lägga till med båt",
+        "icon": "img/boat.png"
+    },
+    {
+        "cord": [59.437691, 18.3550033],
+        "popupTitle": "Ekholmen",
+        "popupContent": "En fiskebåt som har sjunkit",
+        "icon": "img/boat.png"
     }
 ]
