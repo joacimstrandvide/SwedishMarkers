@@ -102,7 +102,7 @@
         "cord": [59.443015, 18.098557],
         "popupTitle": "KFC",
         "popupContent": "God kyckling",
-        "icon": "img/kfc.png"
+        "icon": "img/food.png"
     },
     {
         "cord": [559.44462188662165, 18.121609107065662],
@@ -118,5 +118,16 @@
         "cord": [59.387342, 18.290536],
         "popupTitle": "Bogesund brygga",
         "popupContent": "En fin brygga på bogesund"
+    },
+    {
+        "cord": [59.438935, 18.309397],
+        "popupTitle": "Resarö Brygga",
+        "popupContent": "En fin brygga på Resarö",
+        "icon": "img/swim.png"
+    },
+    {
+        "cord": [59.430970, 18.232365],
+        "popupTitle": "Bogesund Grillplats",
+        "popupContent": "En fin grillplats på Bogesund"
     }
 ]
