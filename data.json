@@ -3,13 +3,13 @@
         "cord": [59.40934714559038, 18.305898476279754],
         "popupTitle": "Badställe på Kullö",
         "popupContent": "Ett trevligt litet badställe på kullö som ligger ganska enskilt",
-        "icon": "img/swim.png"
+        "icon": "/img/swim.png"
     },
     {
         "cord": [59.419199665038775, 18.289186302306213],
         "popupTitle": "Lillskär",
         "popupContent": "En vacker liten ö med fungerande brygga och plats för camping, samt ett gammalt fort",
-        "icon": "img/boat.png"
+        "icon": "/img/boat.png"
     },
     {
         "cord": [59.42098048576034, 18.301259674296443],
@@ -20,7 +20,7 @@
         "cord": [59.40348970158174, 18.575723336612633],
         "popupTitle": "Ö utanför Grinda",
         "popupContent": "En vacker ö utanför grinda",
-        "icon": "img/boat.png"
+        "icon": "/img/boat.png"
     },
     {
         "cord": [59.42691677775014, 18.296913824609547],
@@ -31,13 +31,13 @@
         "cord": [59.392649777196866, 18.43960338799008],
         "popupTitle": "Syrran & jag",
         "popupContent": "Här finns en trevligt restaurang med bra utsikt över oxdjupet",
-        "icon": "img/food.png"
+        "icon": "/img/food.png"
     },
     {
         "cord": [59.43389160612295, 18.30976681269965],
         "popupTitle": "Badviken",
         "popupContent": "Här kan man bada, grilla eller sätta kajak i havet",
-        "icon": "img/swim.png"
+        "icon": "/img/swim.png"
     },
     {
         "cord": [59.39606788021491, 18.26744435299481],
@@ -48,13 +48,13 @@
         "cord": [59.40376428340952, 18.205928188516705],
         "popupTitle": "Träsksjön",
         "popupContent": "Vacker Sjö där man kan simma",
-        "icon": "img/swim.png"
+        "icon": "/img/swim.png"
     },
     {
         "cord": [59.43381477174995, 18.426831341167407],
         "popupTitle": "Kalvholmen",
         "popupContent": "Fint ställe att lägga till med båt",
-        "icon": "img/boat.png"
+        "icon": "/img/boat.png"
     },
     {
         "cord": [59.44175486617764, 18.362580960338413],
@@ -65,13 +65,13 @@
         "cord": [59.423217, 18.380073],
         "popupTitle": "Ekholmen",
         "popupContent": "Ö med fin strand där man kanske kan lägga till med båt",
-        "icon": "img/boat.png"
+        "icon": "/img/boat.png"
     },
     {
         "cord": [59.437691, 18.3550033],
         "popupTitle": "Moholmen",
         "popupContent": "En fiskebåt som har sjunkit",
-        "icon": "img/boat.png"
+        "icon": "/img/boat.png"
     },
     {
         "cord": [59.401872, 18.354892],
@@ -102,7 +102,7 @@
         "cord": [59.443015, 18.098557],
         "popupTitle": "KFC",
         "popupContent": "God kyckling",
-        "icon": "img/food.png"
+        "icon": "/img/food.png"
     },
     {
         "cord": [559.44462188662165, 18.121609107065662],
@@ -123,7 +123,7 @@
         "cord": [59.438935, 18.309397],
         "popupTitle": "Resarö Brygga",
         "popupContent": "En fin brygga på Resarö",
-        "icon": "img/swim.png"
+        "icon": "/img/swim.png"
     },
     {
         "cord": [59.430970, 18.232365],
