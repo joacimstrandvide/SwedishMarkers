@@ -25,7 +25,7 @@ function MapPart() {
     }, [])
 
     const customIcon = new Icon({
-        iconUrl: 'img/location.png',
+        iconUrl: `${process.env.PUBLIC_URL}/img/location.png`,
         iconSize: [30, 30]
     })
 
@@ -65,7 +65,7 @@ function MapPart() {
                         {data.map((marker, index) => {
                             const icon = marker.icon
                                 ? new Icon({
-                                      iconUrl: marker.icon,
+                                      iconUrl: `${process.env.PUBLIC_URL}${marker.icon}`,
                                       iconSize: [30, 30]
                                   })
                                 : customIcon

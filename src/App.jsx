@@ -2,9 +2,9 @@ import React from 'react'
 import './App.css'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
-import FooterPart from './components/FooterPart'
-import MapPart from './components/MapPart'
-import AboutPart from './components/AboutPart'
+import Footer from './components/Footer'
+import Map from './components/Map'
+import About from './components/About'
 
 function App() {
     return (
@@ -24,7 +24,7 @@ function App() {
                                 &times;
                             </button>
                             <div className="content">
-                                <AboutPart />
+                                <About />
                             </div>
                             <div className="actions">
                                 <button
@@ -40,8 +40,8 @@ function App() {
                     )}
                 </Popup>
             </header>
-            <MapPart />
-            <FooterPart />
+            <Map />
+            <Footer />
         </>
     )
 }
