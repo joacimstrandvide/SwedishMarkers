@@ -124,5 +124,11 @@
         "cord": [59.430970, 18.232365],
         "popupTitle": "Bogesund Grillplats",
         "popupContent": "Grillplats"
+    },
+    {
+        "cord": [59.439594, 18.150321],
+        "popupTitle": "Alholmsudd",
+        "popupContent": "Fartyg som sjunkit",
+        "icon": "/img/boat.png"
     }
 ]
