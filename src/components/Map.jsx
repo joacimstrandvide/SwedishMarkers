@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { supabase } from '../supabaseClient'
 import 'leaflet/dist/leaflet.css'
 import {
     MapContainer,
@@ -14,20 +15,13 @@ function MapPart() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('data.json', {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            }
-        })
-            .then((response) => response.json())
-            .then((data) => setData(data))
+        const fetchMarkers = async () => {
+            const { data, error } = await supabase.from('markers').select('*')
+            if (error) console.error('Error fetching markers:', error)
+            else setData(data)
+        }
+        fetchMarkers()
     }, [])
-
-    const customIcon = new Icon({
-        iconUrl: `${process.env.PUBLIC_URL}/img/location.png`,
-        iconSize: [30, 30]
-    })
 
     const createClusterIcon = (cluster) => {
         return new divIcon({
@@ -62,22 +56,23 @@ function MapPart() {
                         chunkedLoading
                         iconCreateFunction={createClusterIcon}
                     >
-                        {data.map((marker, index) => {
-                            const icon = marker.icon
-                                ? new Icon({
-                                      iconUrl: `${process.env.PUBLIC_URL}${marker.icon}`,
-                                      iconSize: [30, 30]
-                                  })
-                                : customIcon
+                        {data.map((marker) => {
+                            const markerIcon = new Icon({
+                                iconUrl: marker.icon
+                                    ? `${process.env.PUBLIC_URL}${marker.icon}`
+                                    : `${process.env.PUBLIC_URL}/img/location.png`,
+                                iconSize: [30, 30]
+                            })
+
                             return (
                                 <Marker
-                                    key={index}
-                                    position={marker.cord}
-                                    icon={icon}
+                                    key={marker.id}
+                                    position={[marker.lat, marker.lng]}
+                                    icon={markerIcon}
                                 >
                                     <Popup>
-                                        <h3>{marker.popupTitle}</h3>
-                                        <p>{marker.popupContent}</p>
+                                        <h3>{marker.name}</h3>
+                                        <p>{marker.popupcontent}</p>
                                     </Popup>
                                 </Marker>
                             )

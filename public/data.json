@@ -47,8 +47,7 @@
     {
         "cord": [59.40376428340952, 18.205928188516705],
         "popupTitle": "Träsksjön",
-        "popupContent": "Sjö mitt i bogesund",
-        "icon": "/img/swim.png"
+        "popupContent": "Sjö mitt i bogesund"
     },
     {
         "cord": [59.43381477174995, 18.426831341167407],
@@ -124,5 +123,10 @@
         "cord": [59.430970, 18.232365],
         "popupTitle": "Bogesund Grillplats",
         "popupContent": "Grillplats"
+    },
+    {
+        "cord": [59.439594, 18.150321],
+        "popupTitle": "Alholmsudd",
+        "popupContent": "Fartyg som har sjunkit"
     }
 ]

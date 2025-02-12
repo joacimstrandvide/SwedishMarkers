@@ -2,9 +2,10 @@ import React from 'react'
 import './App.css'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
-import Footer from './components/Footer'
 import Map from './components/Map'
 import About from './components/About'
+import Credits from './components/Credits'
+import NewMarker from './components/NewMarker'
 
 function App() {
     return (
@@ -14,7 +15,7 @@ function App() {
                     Swedish<strong>Markers</strong>
                 </h1>
                 <Popup
-                    trigger={<button className="open">Om Oss</button>}
+                    trigger={<button className="open">Info</button>}
                     modal
                     nested
                 >
@@ -26,22 +27,43 @@ function App() {
                             <div className="content">
                                 <About />
                             </div>
-                            <div className="actions">
-                                <button
-                                    className="close-button"
-                                    onClick={() => {
-                                        close()
-                                    }}
-                                >
-                                    Stäng
-                                </button>
+                        </div>
+                    )}
+                </Popup>
+                <Popup
+                    trigger={<button className="open">Credits</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
+                            <div className="content">
+                                <Credits />
+                            </div>
+                        </div>
+                    )}
+                </Popup>
+                <Popup
+                    trigger={<button className="open">Ny plats</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
+                            <div className="content">
+                                <NewMarker />
                             </div>
                         </div>
                     )}
                 </Popup>
             </header>
             <Map />
-            <Footer />
         </>
     )
 }
