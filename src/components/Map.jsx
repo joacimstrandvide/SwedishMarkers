@@ -60,7 +60,7 @@ function MapPart() {
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
-                                    : `${process.env.PUBLIC_URL}/img/location.png`,
+                                    : `${process.env.PUBLIC_URL}/img/location.webp`,
                                 iconSize: [30, 30]
                             })
 
