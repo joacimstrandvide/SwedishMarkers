@@ -6,7 +6,7 @@ function NewMarker() {
     const [lat, setLat] = useState('')
     const [lng, setLng] = useState('')
     const [popupcontent, setPopupContent] = useState('')
-    /* const [icon, setIcon] = useState('') */
+    const [icon, setIcon] = useState('')
 
     const validateText = (text) => /^[a-zA-ZåäöÅÄÖ\s0-9.,!?-]+$/.test(text)
     const validateNumber = (num) => /^-?\d+(\.\d+)?$/.test(num)
@@ -34,15 +34,13 @@ function NewMarker() {
             return
         }
 
-        /* const sanitizedIcon = icon?.startsWith('/img/') ? icon : null */
-
         const { error } = await supabase.from('markers').insert([
             {
                 name: name.trim(),
                 lat: parseFloat(lat),
                 lng: parseFloat(lng),
                 popupcontent: popupcontent.trim(),
-                /* icon: sanitizedIcon */
+                icon: icon
             }
         ])
 
@@ -58,7 +56,7 @@ function NewMarker() {
         <div className="new-marker-container">
             <h3>Lägg till en ny plats</h3>
             <form onSubmit={handleSubmit} className="add-marker-form">
-                <label>Namn:</label>
+                <label>Namn</label>
                 <input
                     type="text"
                     value={name}
@@ -66,7 +64,7 @@ function NewMarker() {
                     required
                 />
 
-                <label>Latitud:</label>
+                <label>Latitud</label>
                 <input
                     type="number"
                     step="any"
@@ -75,7 +73,7 @@ function NewMarker() {
                     required
                 />
 
-                <label>longitud:</label>
+                <label>longitud</label>
                 <input
                     type="number"
                     step="any"
@@ -84,19 +82,18 @@ function NewMarker() {
                     required
                 />
 
-                <label>Beskrivning:</label>
+                <label>Beskrivning (frivillig)</label>
                 <textarea
                     value={popupcontent}
                     onChange={(e) => setPopupContent(e.target.value)}
                 />
 
-                {/* <label>Icon (frivillig):</label>
-                <input
-                    type="text"
-                    value={icon}
-                    onChange={(e) => setIcon(e.target.value)}
-                    placeholder="/img/swim.png"
-                /> */}
+                <label>Icon (frivillig)</label>
+                <select value={icon} onChange={(e) => setIcon(e.target.value)}>
+                    <option value="/img/boat.webp">Båt</option>
+                    <option value="/img/food.webp">Mat</option>
+                    <option value="/img/swim.webp">Simning</option>
+                </select>
 
                 <button type="submit">Lägg till</button>
             </form>

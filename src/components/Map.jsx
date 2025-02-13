@@ -14,6 +14,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 function MapPart() {
     const [data, setData] = useState([])
 
+    // Hämta alla platser från postgres databasen
     useEffect(() => {
         const fetchMarkers = async () => {
             const { data, error } = await supabase.from('markers').select('*')
@@ -23,6 +24,7 @@ function MapPart() {
         fetchMarkers()
     }, [])
 
+    // Kluster ikoner för när flera objekt är nära varandra
     const createClusterIcon = (cluster) => {
         return new divIcon({
             html: `<div className="cirlce">${cluster.getChildCount()}</div>`,
@@ -38,6 +40,7 @@ function MapPart() {
                 zoom={13}
             >
                 <LayersControl position="topright">
+                    {/* Olika kartor */}
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -57,6 +60,7 @@ function MapPart() {
                         iconCreateFunction={createClusterIcon}
                     >
                         {data.map((marker) => {
+                            // Default eller custom ikon
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
@@ -65,6 +69,7 @@ function MapPart() {
                             })
 
                             return (
+                                // Varje individuel plats
                                 <Marker
                                     key={marker.id}
                                     position={[marker.lat, marker.lng]}
