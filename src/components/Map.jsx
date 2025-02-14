@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { supabase } from '../supabaseClient'
+import { supabase } from '../helper/supabaseClient'
+import styled from 'styled-components'
 import 'leaflet/dist/leaflet.css'
 import {
     MapContainer,
@@ -10,15 +11,17 @@ import {
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+import { useAuth } from '../context/AuthContext'
 
 function MapPart() {
     const [data, setData] = useState([])
+    const { isLoggedIn } = useAuth()
 
     // Hämta alla platser från postgres databasen
     useEffect(() => {
         const fetchMarkers = async () => {
             const { data, error } = await supabase.from('markers').select('*')
-            if (error) console.error('Error fetching markers:', error)
+            if (error) console.error('Fel vid databas hämtning:', error)
             else setData(data)
         }
         fetchMarkers()
@@ -78,6 +81,16 @@ function MapPart() {
                                     <Popup>
                                         <h3>{marker.name}</h3>
                                         <p>{marker.popupcontent}</p>
+                                        {isLoggedIn && (
+                                            <>
+                                                <RemoveButton>
+                                                    Ta bort
+                                                </RemoveButton>
+                                                <EditButton>
+                                                    Redigera
+                                                </EditButton>
+                                            </>
+                                        )}
                                     </Popup>
                                 </Marker>
                             )
@@ -90,3 +103,37 @@ function MapPart() {
 }
 
 export default MapPart
+
+const RemoveButton = styled.button`
+    width: clamp(3rem, 20vw, 6rem);
+    margin-right: 1rem;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: #bc0606;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s;
+    &:hover {
+        box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
+    }
+`
+const EditButton = styled.button`
+    width: clamp(3rem, 20vw, 6rem);
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: #006aa7;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .4s;
+    &:hover {
+        box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
+    }
+`

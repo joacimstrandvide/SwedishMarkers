@@ -9,7 +9,7 @@ function About() {
                     På denna sida kan du enkelt hitta intressanta och unika
                     platser runtom i Sverige
                 </p>
-                <p>Du kan dessutom lägga till nya platser</p>
+                <p>Du kan dessutom lägga till nya platser om du är inloggad</p>
                 <h3>
                     Skapad av{' '}
                     <a

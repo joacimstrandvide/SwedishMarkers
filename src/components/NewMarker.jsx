@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { supabase } from '../supabaseClient'
+import Alert from '@mui/material/Alert'
+import { supabase } from '../helper/supabaseClient'
+import DOMPurify from 'dompurify'
 
 function NewMarker() {
     const [name, setName] = useState('')
@@ -7,15 +9,16 @@ function NewMarker() {
     const [lng, setLng] = useState('')
     const [popupcontent, setPopupContent] = useState('')
     const [icon, setIcon] = useState('')
+    const [alert, setAlert] = useState({ type: '', message: '' })
 
-    const validateText = (text) => /^[a-zA-ZåäöÅÄÖ\s0-9.,!?-]+$/.test(text)
+    const validateText = (text) => /^[a-zA-ZåäöÅÄÖ\s0-9.,'!?-]+$/.test(text)
     const validateNumber = (num) => /^-?\d+(\.\d+)?$/.test(num)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         if (!name || !lat || !lng) {
-            alert('Fyll i alla fält som behövs!')
+            setAlert({ type: 'error', message: 'Fyll i alla fält som behövs!' })
             return
         }
 
@@ -23,38 +26,51 @@ function NewMarker() {
             !validateText(name) ||
             (popupcontent && !validateText(popupcontent))
         ) {
-            alert(
-                'Endast bokstäver, siffror och vanliga tecken är tillåtna i textfält!'
-            )
+            setAlert({
+                type: 'error',
+                message:
+                    'Endast bokstäver, siffror och vanliga tecken är tillåtna i textfält!'
+            })
             return
         }
 
         if (!validateNumber(lat) || !validateNumber(lng)) {
-            alert('Latitud och longitud måste vara nummer!')
+            setAlert({
+                type: 'error',
+                message: 'Latitud och longitud måste vara nummer!'
+            })
             return
         }
+
+        const sanitizedPopupContent = DOMPurify.sanitize(popupcontent.trim())
 
         const { error } = await supabase.from('markers').insert([
             {
                 name: name.trim(),
                 lat: parseFloat(lat),
                 lng: parseFloat(lng),
-                popupcontent: popupcontent.trim(),
+                popupcontent: sanitizedPopupContent,
                 icon: icon
             }
         ])
 
         if (error) {
+            setAlert({
+                type: 'error',
+                message: 'Ett fel inträffade vid tillägg av ny plats.'
+            })
             console.error('Fel vid ny plats:', error)
         } else {
-            alert('Ny plats tillagd!')
-            window.location.reload()
+            setAlert({ type: 'success', message: 'Ny plats tillagd!' })
         }
     }
 
     return (
         <div className="new-marker-container">
             <h3>Lägg till en ny plats</h3>
+            {alert.message && (
+                <Alert severity={alert.type}>{alert.message}</Alert>
+            )}
             <form onSubmit={handleSubmit} className="add-marker-form">
                 <label>Namn</label>
                 <input
@@ -73,7 +89,7 @@ function NewMarker() {
                     required
                 />
 
-                <label>longitud</label>
+                <label>Longitud</label>
                 <input
                     type="number"
                     step="any"
@@ -90,6 +106,7 @@ function NewMarker() {
 
                 <label>Icon (frivillig)</label>
                 <select value={icon} onChange={(e) => setIcon(e.target.value)}>
+                    <option value="">Standard</option>
                     <option value="/img/boat.webp">Båt</option>
                     <option value="/img/food.webp">Mat</option>
                     <option value="/img/swim.webp">Simning</option>
