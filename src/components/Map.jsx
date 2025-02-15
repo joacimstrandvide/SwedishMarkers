@@ -36,6 +36,33 @@ function MapPart() {
         })
     }
 
+    const handleRemove = async (id) => {
+        const { error } = await supabase.from('markers').delete().eq('id', id)
+        if (error) {
+            console.error('Fel vid borttagning:', error)
+        } else {
+            setData(data.filter((marker) => marker.id !== id))
+        }
+    }
+
+    const handleEdit = async (id, newContent) => {
+        const { error } = await supabase
+            .from('markers')
+            .update({ popupcontent: newContent })
+            .eq('id', id)
+        if (error) {
+            console.error('Fel vid redigering:', error)
+        } else {
+            setData(
+                data.map((marker) =>
+                    marker.id === id
+                        ? { ...marker, popupcontent: newContent }
+                        : marker
+                )
+            )
+        }
+    }
+
     return (
         <>
             <MapContainer
@@ -83,10 +110,24 @@ function MapPart() {
                                         <p>{marker.popupcontent}</p>
                                         {isLoggedIn && (
                                             <>
-                                                <RemoveButton>
+                                                <RemoveButton
+                                                    onClick={() =>
+                                                        handleRemove(marker.id)
+                                                    }
+                                                >
                                                     Ta bort
                                                 </RemoveButton>
-                                                <EditButton>
+                                                <EditButton
+                                                    onClick={() =>
+                                                        handleEdit(
+                                                            marker.id,
+                                                            prompt(
+                                                                'Ny beskrivning:',
+                                                                marker.popupcontent
+                                                            )
+                                                        )
+                                                    }
+                                                >
                                                     Redigera
                                                 </EditButton>
                                             </>
@@ -116,7 +157,7 @@ const RemoveButton = styled.button`
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: .4s;
+    transition: 0.4s;
     &:hover {
         box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
     }
@@ -132,7 +173,7 @@ const EditButton = styled.button`
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: .4s;
+    transition: 0.4s;
     &:hover {
         box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { supabase } from '../helper/supabaseClient'
+import styled from 'styled-components'
 
 const AuthContext = createContext()
 
@@ -28,7 +29,11 @@ function AuthProvider({ children }) {
     const logout = () => setIsLoggedIn(false)
 
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <>
+                <LoadingText>Loading...</LoadingText>
+            </>
+        )
     }
 
     return (
@@ -39,3 +44,8 @@ function AuthProvider({ children }) {
 }
 
 export { AuthProvider, AuthContext }
+
+const LoadingText = styled.h2`
+    text-align: center;
+    font-size: 1.2rem;
+`
