@@ -17,6 +17,18 @@ function NewMarker() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        const { data, error: userError } = await supabase.auth.getUser()
+
+        if (userError || !data?.user) {
+            setAlert({
+                type: 'error',
+                message: 'Du måste vara inloggad för att lägga till en plats!'
+            })
+            return
+        }
+
+        const userId = data.user.id
+
         if (!name || !lat || !lng) {
             setAlert({ type: 'error', message: 'Fyll i alla fält som behövs!' })
             return
@@ -50,7 +62,8 @@ function NewMarker() {
                 lat: parseFloat(lat),
                 lng: parseFloat(lng),
                 popupcontent: sanitizedPopupContent,
-                icon: icon
+                icon: icon,
+                user_id: userId
             }
         ])
 

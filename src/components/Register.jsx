@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 
 function Register() {
     const { login } = useAuth()
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({ type: '', message: '' })
@@ -14,12 +15,18 @@ function Register() {
         e.preventDefault()
         const { data, error } = await supabase.auth.signUp({
             email: email,
-            password: password
+            password: password,
+            options: {
+                data: {
+                    first_name: name
+                }
+            }
         })
 
         if (error) {
             setAlert({ type: 'error', message: 'Ett fel inträffade!' })
             console.log(error)
+            setName('')
             setEmail('')
             setPassword('')
             return
@@ -39,6 +46,13 @@ function Register() {
                 )}
                 <h3>Skapa nytt konto</h3>
                 <form onSubmit={handleSubmit}>
+                    <input
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        type="text"
+                        placeholder="Namn"
+                        required
+                    />
                     <input
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}

@@ -58,17 +58,13 @@ div.leaflet-marker-icon {
 }
 
 /* Popup Content */
+
+.popup-content {
+    width: 50%;
+}
 .open {
     font-family: 'Oswald', sans-serif;
-    color: #000;
-    border: 2px solid #000;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 0.7rem;
-    font-size: 0.9rem;
-    position: static;
-    top: 2.3rem;
-    right: 6rem;
+    font-size: 1rem;
     transition: 0.4s;
 }
 
@@ -78,29 +74,11 @@ div.leaflet-marker-icon {
     color: #006aa7;
 }
 
-.close-button {
-    font-family: 'Oswald', sans-serif;
-    color: #000;
-    background-color: #fff;
-    border: 2px solid #000;
-    border-radius: 10px;
-    padding: 0.4rem;
-    font-size: 0.9rem;
-}
-
-.modal {
-    font-size: 14px;
-}
 .modal > .content {
     text-align: center;
     background-color: #fff;
-    padding: 5px;
 }
-.modal > .actions {
-    padding: 10px 5px;
-    margin: auto;
-    text-align: center;
-}
+
 .modal > .close {
     cursor: pointer;
     position: absolute;
@@ -109,23 +87,16 @@ div.leaflet-marker-icon {
     line-height: 20px;
     right: -10px;
     top: -10px;
-    font-size: 24px;
+    font-size: 2rem;
     background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
+    border-radius: 1.5rem;
+    border: none;
 }
 
 /* For Mobile */
 @media (max-width: 640px) {
     .popup-content {
-        width: 100%;
-    }
-
-    .open {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin: 0.5rem;
+        width: 80%;
     }
 }
 

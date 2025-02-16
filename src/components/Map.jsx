@@ -46,6 +46,8 @@ function MapPart() {
     }
 
     const handleEdit = async (id, newContent) => {
+        if (newContent === null) return
+
         const { error } = await supabase
             .from('markers')
             .update({ popupcontent: newContent })
