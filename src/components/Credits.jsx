@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+/* Alla ikoner sidan använder */
 function Credits() {
     return (
         <>

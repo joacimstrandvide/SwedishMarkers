@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
+// Databasen
 import { supabase } from './helper/supabaseClient'
 import './App.css'
 import styled from 'styled-components'
+// Popup fönster
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
+// Komponenter
 import Map from './components/Map'
 import About from './components/About'
 import Credits from './components/Credits'
 import NewMarker from './components/NewMarker'
 import Register from './components/Register'
 import Login from './components/Login'
+// AuthContext
 import { useAuth } from './context/AuthContext'
 
 function App() {
@@ -32,9 +36,11 @@ function App() {
     return (
         <>
             <HeaderMain>
+                {/* Titel */}
                 <h1>
                     Swedish<strong>Markers</strong>
                 </h1>
+                {/* Navigationen */}
                 <input
                     type="checkbox"
                     id="menu-toggle"
@@ -171,6 +177,7 @@ function App() {
 
 export default App
 
+// Styling
 const HeaderMain = styled.header`
     background-color: #000;
     margin: 0;
@@ -189,7 +196,7 @@ const HeaderMain = styled.header`
     }
     @media (max-width: 640px) {
         h1 {
-            font-size: 1.5rem;
+            font-size: 2.3rem;
         }
     }
 `

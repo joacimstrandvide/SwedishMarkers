@@ -6,6 +6,7 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
     const [icon, setIcon] = useState(marker.icon || '')
     const [popupContent, setPopupContent] = useState(marker.popupcontent || '')
 
+    // Uppdatera formuläret med datan som redan finns
     useEffect(() => {
         setName(marker.name || '')
         setIcon(marker.icon || '')
@@ -55,6 +56,7 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
 
 export default EditMarkerForm
 
+// Styling
 const FormContainer = styled.form`
     display: flex;
     flex-direction: column;

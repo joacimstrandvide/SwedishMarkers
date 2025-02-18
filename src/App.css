@@ -163,7 +163,7 @@ textarea {
 }
 
 .add-marker-form button:hover {
-    box-shadow: 5px 5px 5px 0px rgba(22, 22, 22, 0.75);
+    box-shadow: 1px 1px 2px 0px rgba(22, 22, 22, 0.75);
 }
 
 /* Navigations menyn */

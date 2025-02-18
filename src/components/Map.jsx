@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+// Databasen
 import { supabase } from '../helper/supabaseClient'
 import styled from 'styled-components'
+// Leaflet
 import 'leaflet/dist/leaflet.css'
 import {
     MapContainer,
@@ -11,7 +13,9 @@ import {
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+// AuthContext
 import { useAuth } from '../context/AuthContext'
+// Redigera plats formulär
 import EditMarkerForm from './EditMarkerForm'
 
 function MapPart() {
@@ -38,6 +42,7 @@ function MapPart() {
         })
     }
 
+    // Ta bort en plats
     const handleRemove = async (id) => {
         const { error } = await supabase.from('markers').delete().eq('id', id)
         if (error) {
@@ -47,10 +52,26 @@ function MapPart() {
         }
     }
 
+    // Redigera en plats
+    // Se till att formuläret öppnas direkt
+    const markerRefs = useRef({})
+
     const handleEdit = (marker) => {
-        setEditingMarker(marker)
+        if (markerRefs.current[marker.id]) {
+            markerRefs.current[marker.id].closePopup()
+        }
+
+        setTimeout(() => {
+            setEditingMarker(marker)
+            setTimeout(() => {
+                if (markerRefs.current[marker.id]) {
+                    markerRefs.current[marker.id].openPopup()
+                }
+            }, 100)
+        }, 10)
     }
 
+    // Spara redigerad plats
     const handleSave = async (updatedMarker) => {
         const { error } = await supabase
             .from('markers')
@@ -74,6 +95,7 @@ function MapPart() {
 
     return (
         <>
+            {/* Vart kartan startar */}
             <MapContainer
                 center={[59.40360214513208, 18.32974331322703]}
                 zoom={13}
@@ -99,7 +121,7 @@ function MapPart() {
                         iconCreateFunction={createClusterIcon}
                     >
                         {data.map((marker) => {
-                            // Default eller custom ikon
+                            // Standard eller unik ikon
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
@@ -113,6 +135,9 @@ function MapPart() {
                                     key={marker.id}
                                     position={[marker.lat, marker.lng]}
                                     icon={markerIcon}
+                                    ref={(ref) =>
+                                        (markerRefs.current[marker.id] = ref)
+                                    }
                                 >
                                     <Popup>
                                         {editingMarker &&
@@ -165,6 +190,7 @@ function MapPart() {
 
 export default MapPart
 
+// Styling
 const RemoveButton = styled.button`
     width: clamp(3rem, 20vw, 6rem);
     margin-right: 1rem;
