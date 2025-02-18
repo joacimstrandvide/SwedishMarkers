@@ -12,10 +12,12 @@ import {
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import { useAuth } from '../context/AuthContext'
+import EditMarkerForm from './EditMarkerForm'
 
 function MapPart() {
     const [data, setData] = useState([])
     const { isLoggedIn } = useAuth()
+    const [editingMarker, setEditingMarker] = useState(null)
 
     // Hämta alla platser från postgres databasen
     useEffect(() => {
@@ -45,23 +47,28 @@ function MapPart() {
         }
     }
 
-    const handleEdit = async (id, newContent) => {
-        if (newContent === null) return
+    const handleEdit = (marker) => {
+        setEditingMarker(marker)
+    }
 
+    const handleSave = async (updatedMarker) => {
         const { error } = await supabase
             .from('markers')
-            .update({ popupcontent: newContent })
-            .eq('id', id)
+            .update({
+                name: updatedMarker.name,
+                icon: updatedMarker.icon,
+                popupcontent: updatedMarker.popupcontent
+            })
+            .eq('id', updatedMarker.id)
         if (error) {
             console.error('Fel vid redigering:', error)
         } else {
             setData(
                 data.map((marker) =>
-                    marker.id === id
-                        ? { ...marker, popupcontent: newContent }
-                        : marker
+                    marker.id === updatedMarker.id ? updatedMarker : marker
                 )
             )
+            setEditingMarker(null)
         }
     }
 
@@ -108,30 +115,41 @@ function MapPart() {
                                     icon={markerIcon}
                                 >
                                     <Popup>
-                                        <h3>{marker.name}</h3>
-                                        <p>{marker.popupcontent}</p>
-                                        {isLoggedIn && (
+                                        {editingMarker &&
+                                        editingMarker.id === marker.id ? (
+                                            <EditMarkerForm
+                                                marker={marker}
+                                                onSave={handleSave}
+                                                onCancel={() =>
+                                                    setEditingMarker(null)
+                                                }
+                                            />
+                                        ) : (
                                             <>
-                                                <RemoveButton
-                                                    onClick={() =>
-                                                        handleRemove(marker.id)
-                                                    }
-                                                >
-                                                    Ta bort
-                                                </RemoveButton>
-                                                <EditButton
-                                                    onClick={() =>
-                                                        handleEdit(
-                                                            marker.id,
-                                                            prompt(
-                                                                'Ny beskrivning:',
-                                                                marker.popupcontent
-                                                            )
-                                                        )
-                                                    }
-                                                >
-                                                    Redigera
-                                                </EditButton>
+                                                <h3>{marker.name}</h3>
+                                                <p>{marker.popupcontent}</p>
+                                                {isLoggedIn && (
+                                                    <>
+                                                        <RemoveButton
+                                                            onClick={() =>
+                                                                handleRemove(
+                                                                    marker.id
+                                                                )
+                                                            }
+                                                        >
+                                                            Ta bort
+                                                        </RemoveButton>
+                                                        <EditButton
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    marker
+                                                                )
+                                                            }
+                                                        >
+                                                            Redigera
+                                                        </EditButton>
+                                                    </>
+                                                )}
                                             </>
                                         )}
                                     </Popup>
@@ -161,7 +179,7 @@ const RemoveButton = styled.button`
     cursor: pointer;
     transition: 0.4s;
     &:hover {
-        box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
+        box-shadow: 1px 1px 2px 0px rgba(22, 22, 22, 0.75);
     }
 `
 const EditButton = styled.button`
@@ -177,6 +195,6 @@ const EditButton = styled.button`
     cursor: pointer;
     transition: 0.4s;
     &:hover {
-        box-shadow: 4px 4px 4px 0px rgba(22, 22, 22, 0.75);
+        box-shadow: 1px 1px 2px 0px rgba(22, 22, 22, 0.75);
     }
 `

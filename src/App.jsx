@@ -179,13 +179,13 @@ const HeaderMain = styled.header`
     text-align: center;
     h1 {
         color: #006aa7;
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Oswald', sans-serif;
         font-size: 2rem;
     }
 
     strong {
         color: #fecc02;
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Oswald', sans-serif;
     }
     @media (max-width: 640px) {
         h1 {
@@ -221,4 +221,5 @@ const AuthActions = styled.section`
     border: 2px solid #006aa7;
     border-radius: 1rem;
     width: 10rem;
+    margin: 1rem;
 `

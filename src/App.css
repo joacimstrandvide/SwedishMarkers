@@ -58,7 +58,6 @@ div.leaflet-marker-icon {
 }
 
 /* Popup Content */
-
 .popup-content {
     width: 50%;
 }
@@ -72,11 +71,6 @@ div.leaflet-marker-icon {
     border: 2px solid #fecc02;
     border-radius: 10px;
     color: #006aa7;
-}
-
-.modal > .content {
-    text-align: center;
-    background-color: #fff;
 }
 
 .modal > .close {
