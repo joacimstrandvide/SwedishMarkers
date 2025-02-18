@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/SwedishMarkers/static/css/main.8f74c0b2.css",
-    "main.js": "/SwedishMarkers/static/js/main.86a377c9.js",
-    "static/js/952.bbe24ca5.chunk.js": "/SwedishMarkers/static/js/952.bbe24ca5.chunk.js",
+    "main.css": "/SwedishMarkers/static/css/main.0c5725ba.css",
+    "main.js": "/SwedishMarkers/static/js/main.529e5486.js",
+    "static/js/198.54c3ebb7.chunk.js": "/SwedishMarkers/static/js/198.54c3ebb7.chunk.js",
     "index.html": "/SwedishMarkers/index.html",
-    "main.8f74c0b2.css.map": "/SwedishMarkers/static/css/main.8f74c0b2.css.map",
-    "main.86a377c9.js.map": "/SwedishMarkers/static/js/main.86a377c9.js.map",
-    "952.bbe24ca5.chunk.js.map": "/SwedishMarkers/static/js/952.bbe24ca5.chunk.js.map"
+    "main.0c5725ba.css.map": "/SwedishMarkers/static/css/main.0c5725ba.css.map",
+    "main.529e5486.js.map": "/SwedishMarkers/static/js/main.529e5486.js.map",
+    "198.54c3ebb7.chunk.js.map": "/SwedishMarkers/static/js/198.54c3ebb7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8f74c0b2.css",
-    "static/js/main.86a377c9.js"
+    "static/css/main.0c5725ba.css",
+    "static/js/main.529e5486.js"
   ]
 }
