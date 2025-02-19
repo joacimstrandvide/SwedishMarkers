@@ -2,20 +2,31 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 function EditMarkerForm({ marker, onSave, onCancel }) {
-    const [name, setName] = useState(marker.name || '')
-    const [icon, setIcon] = useState(marker.icon || '')
-    const [popupContent, setPopupContent] = useState(marker.popupcontent || '')
+    const [editForm, setEditForm] = useState({
+        name: marker.name || '',
+        icon: marker.icon || '',
+        popupcontent: marker.popupcontent || ''
+    })
 
-    // Uppdatera formuläret med datan som redan finns
     useEffect(() => {
-        setName(marker.name || '')
-        setIcon(marker.icon || '')
-        setPopupContent(marker.popupcontent || '')
+        setEditForm({
+            name: marker.name || '',
+            icon: marker.icon || '',
+            popupcontent: marker.popupcontent || ''
+        })
     }, [marker])
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setEditForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }))
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        onSave({ ...marker, name, icon, popupcontent: popupContent })
+        onSave({ ...marker, ...editForm })
     }
 
     return (
@@ -24,13 +35,18 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
                 Titel:
                 <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    value={editForm.name}
+                    onChange={handleChange}
                 />
             </label>
             <label>
                 Ikon:
-                <select value={icon} onChange={(e) => setIcon(e.target.value)}>
+                <select
+                    name="icon"
+                    value={editForm.icon}
+                    onChange={handleChange}
+                >
                     <option value="">Standard</option>
                     <option value="/img/boat.webp">Båt</option>
                     <option value="/img/food.webp">Mat</option>
@@ -40,8 +56,9 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
             <label>
                 Beskrivning:
                 <textarea
-                    value={popupContent}
-                    onChange={(e) => setPopupContent(e.target.value)}
+                    name="popupcontent"
+                    value={editForm.popupcontent}
+                    onChange={handleChange}
                 />
             </label>
             <ButtonContainer>

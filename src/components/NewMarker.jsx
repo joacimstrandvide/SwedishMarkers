@@ -4,15 +4,26 @@ import { supabase } from '../helper/supabaseClient'
 import DOMPurify from 'dompurify'
 
 function NewMarker() {
-    const [name, setName] = useState('')
-    const [lat, setLat] = useState('')
-    const [lng, setLng] = useState('')
-    const [popupcontent, setPopupContent] = useState('')
-    const [icon, setIcon] = useState('')
+    const [form, setForm] = useState({
+        name: '',
+        lat: '',
+        lng: '',
+        popupcontent: '',
+        icon: ''
+    })
     const [alert, setAlert] = useState({ type: '', message: '' })
 
     const validateText = (text) => /^[a-zA-ZåäöÅÄÖ\s0-9.,'!?-]+$/.test(text)
     const validateNumber = (num) => /^-?\d+(\.\d+)?$/.test(num)
+    const validateLatLng = (num) => /^-?\d{1,2}\.\d+$/.test(num) // Ensures there is a '.' after first 1-2 digits
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }))
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -29,14 +40,14 @@ function NewMarker() {
 
         const userId = data.user.id
 
-        if (!name || !lat || !lng) {
+        if (!form.name || !form.lat || !form.lng) {
             setAlert({ type: 'error', message: 'Fyll i alla fält som behövs!' })
             return
         }
 
         if (
-            !validateText(name) ||
-            (popupcontent && !validateText(popupcontent))
+            !validateText(form.name) ||
+            (form.popupcontent && !validateText(form.popupcontent))
         ) {
             setAlert({
                 type: 'error',
@@ -46,23 +57,31 @@ function NewMarker() {
             return
         }
 
-        if (!validateNumber(lat) || !validateNumber(lng)) {
+        if (
+            !validateNumber(form.lat) ||
+            !validateNumber(form.lng) ||
+            !validateLatLng(form.lat) ||
+            !validateLatLng(form.lng)
+        ) {
             setAlert({
                 type: 'error',
-                message: 'Latitud och longitud måste vara nummer!'
+                message:
+                    'Latitud och longitud måste vara nummer och ha en punkt efter de första 1-2 siffrorna!'
             })
             return
         }
 
-        const sanitizedPopupContent = DOMPurify.sanitize(popupcontent.trim())
+        const sanitizedPopupContent = DOMPurify.sanitize(
+            form.popupcontent.trim()
+        )
 
         const { error } = await supabase.from('markers').insert([
             {
-                name: name.trim(),
-                lat: parseFloat(lat),
-                lng: parseFloat(lng),
+                name: form.name.trim(),
+                lat: parseFloat(form.lat),
+                lng: parseFloat(form.lng),
                 popupcontent: sanitizedPopupContent,
-                icon: icon,
+                icon: form.icon,
                 user_id: userId
             }
         ])
@@ -75,6 +94,7 @@ function NewMarker() {
             console.error('Fel vid ny plats:', error)
         } else {
             setAlert({ type: 'success', message: 'Ny plats tillagd!' })
+            setForm({ name: '', lat: '', lng: '', popupcontent: '', icon: '' })
         }
     }
 
@@ -88,8 +108,9 @@ function NewMarker() {
                 <label>Namn</label>
                 <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
                     required
                 />
 
@@ -97,8 +118,9 @@ function NewMarker() {
                 <input
                     type="number"
                     step="any"
-                    value={lat}
-                    onChange={(e) => setLat(e.target.value)}
+                    name="lat"
+                    value={form.lat}
+                    onChange={handleChange}
                     required
                 />
 
@@ -106,19 +128,21 @@ function NewMarker() {
                 <input
                     type="number"
                     step="any"
-                    value={lng}
-                    onChange={(e) => setLng(e.target.value)}
+                    name="lng"
+                    value={form.lng}
+                    onChange={handleChange}
                     required
                 />
 
                 <label>Beskrivning (frivillig)</label>
                 <textarea
-                    value={popupcontent}
-                    onChange={(e) => setPopupContent(e.target.value)}
+                    name="popupcontent"
+                    value={form.popupcontent}
+                    onChange={handleChange}
                 />
 
                 <label>Icon (frivillig)</label>
-                <select value={icon} onChange={(e) => setIcon(e.target.value)}>
+                <select name="icon" value={form.icon} onChange={handleChange}>
                     <option value="">Standard</option>
                     <option value="/img/boat.webp">Båt</option>
                     <option value="/img/food.webp">Mat</option>

@@ -23,10 +23,6 @@ body,
     width: 100vw;
 }
 
-.leaflet-popup-content > img {
-    max-height: 16rem;
-}
-
 /* Get rid of weird border on zoom buttons */
 html
     body

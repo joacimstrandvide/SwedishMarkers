@@ -9,7 +9,8 @@ import {
     TileLayer,
     Marker,
     Popup,
-    LayersControl
+    LayersControl,
+    useMapEvents
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
@@ -22,8 +23,8 @@ function MapPart() {
     const [data, setData] = useState([])
     const { isLoggedIn } = useAuth()
     const [editingMarker, setEditingMarker] = useState(null)
+    const [clickedPosition, setClickedPosition] = useState(null)
 
-    // Hämta alla platser från postgres databasen
     useEffect(() => {
         const fetchMarkers = async () => {
             const { data, error } = await supabase.from('markers').select('*')
@@ -33,7 +34,6 @@ function MapPart() {
         fetchMarkers()
     }, [])
 
-    // Kluster ikoner för när flera objekt är nära varandra
     const createClusterIcon = (cluster) => {
         return new divIcon({
             html: `<div className="cirlce">${cluster.getChildCount()}</div>`,
@@ -42,7 +42,6 @@ function MapPart() {
         })
     }
 
-    // Ta bort en plats
     const handleRemove = async (id) => {
         const { error } = await supabase.from('markers').delete().eq('id', id)
         if (error) {
@@ -52,15 +51,12 @@ function MapPart() {
         }
     }
 
-    // Redigera en plats
-    // Se till att formuläret öppnas direkt
     const markerRefs = useRef({})
 
     const handleEdit = (marker) => {
         if (markerRefs.current[marker.id]) {
             markerRefs.current[marker.id].closePopup()
         }
-
         setTimeout(() => {
             setEditingMarker(marker)
             setTimeout(() => {
@@ -71,7 +67,6 @@ function MapPart() {
         }, 10)
     }
 
-    // Spara redigerad plats
     const handleSave = async (updatedMarker) => {
         const { error } = await supabase
             .from('markers')
@@ -93,44 +88,52 @@ function MapPart() {
         }
     }
 
+    const MapClickHandler = () => {
+        useMapEvents({
+            click: (e) => {
+                setClickedPosition({ lat: e.latlng.lat, lng: e.latlng.lng })
+            },
+            contextmenu: (e) => {
+                const newPosition = { lat: e.latlng.lat, lng: e.latlng.lng }
+                setClickedPosition(newPosition)
+            }
+        })
+
+        return null
+    }
+
     return (
         <>
-            {/* Vart kartan startar */}
             <MapContainer
                 center={[59.40360214513208, 18.32974331322703]}
-                zoom={13}
+                zoom={11}
             >
+                <MapClickHandler />
                 <LayersControl position="topright">
-                    {/* Olika kartor */}
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                     </LayersControl.BaseLayer>
-
                     <LayersControl.BaseLayer name="Esri World Imagery">
                         <TileLayer
                             attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                         />
                     </LayersControl.BaseLayer>
-
                     <MarkerClusterGroup
                         chunkedLoading
                         iconCreateFunction={createClusterIcon}
                     >
                         {data.map((marker) => {
-                            // Standard eller unik ikon
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
                                     : `${process.env.PUBLIC_URL}/img/location.webp`,
                                 iconSize: [30, 30]
                             })
-
                             return (
-                                // Varje individuel plats
                                 <Marker
                                     key={marker.id}
                                     position={[marker.lat, marker.lng]}
@@ -184,6 +187,18 @@ function MapPart() {
                     </MarkerClusterGroup>
                 </LayersControl>
             </MapContainer>
+            {clickedPosition && (
+                <>
+                    {console.log('Position selected:', clickedPosition)}
+                    <PositionInfo>
+                        <p>Latitude: {clickedPosition.lat}</p>
+                        <p>Longitude: {clickedPosition.lng}</p>
+                        <button onClick={() => setClickedPosition(null)}>
+                            Stäng
+                        </button>
+                    </PositionInfo>
+                </>
+            )}
         </>
     )
 }
@@ -222,5 +237,27 @@ const EditButton = styled.button`
     transition: 0.4s;
     &:hover {
         box-shadow: 1px 1px 2px 0px rgba(22, 22, 22, 0.75);
+    }
+`
+const PositionInfo = styled.div`
+    position: fixed;
+    top: 20%;
+    left: 10%;
+    background: #fff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    font-family: 'Oswald', sans-serif;
+
+    button {
+        padding: 0.4rem;
+        border-radius: 0.3rem;
+        color: #fff;
+        background-color: #006aa7;
+        border: none;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
     }
 `
