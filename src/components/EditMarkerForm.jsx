@@ -5,14 +5,16 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
     const [editForm, setEditForm] = useState({
         name: marker.name || '',
         icon: marker.icon || '',
-        popupcontent: marker.popupcontent || ''
+        popupcontent: marker.popupcontent || '',
+        score: marker.score || ''
     })
 
     useEffect(() => {
         setEditForm({
             name: marker.name || '',
             icon: marker.icon || '',
-            popupcontent: marker.popupcontent || ''
+            popupcontent: marker.popupcontent || '',
+            score: marker.score || ''
         })
     }, [marker])
 
@@ -59,6 +61,18 @@ function EditMarkerForm({ marker, onSave, onCancel }) {
                     name="popupcontent"
                     value={editForm.popupcontent}
                     onChange={handleChange}
+                />
+            </label>
+            <label>
+                Betyg:
+                <input
+                    type="number"
+                    name="score"
+                    value={editForm.score}
+                    onChange={handleChange}
+                    min="1"
+                    max="5"
+                    required
                 />
             </label>
             <ButtonContainer>

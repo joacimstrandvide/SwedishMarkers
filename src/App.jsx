@@ -35,113 +35,57 @@ function App() {
 
     return (
         <>
-            <HeaderMain>
+            {/* Navigationen */}
+            <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+            <label htmlFor="menu-toggle" className="menu-button">
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+            </label>
+            <nav className="navbar">
                 {/* Titel */}
                 <h1>
                     Swedish<strong>Markers</strong>
                 </h1>
-                {/* Navigationen */}
-                <input
-                    type="checkbox"
-                    id="menu-toggle"
-                    className="menu-toggle"
-                />
-                <label htmlFor="menu-toggle" className="menu-button">
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                </label>
-                <nav className="navbar">
-                    <Popup
-                        trigger={<button className="open">Info</button>}
-                        modal
-                        nested
-                    >
-                        {(close) => (
-                            <div className="modal">
-                                <button className="close" onClick={close}>
-                                    &times;
-                                </button>
-                                <div className="content">
-                                    <About />
-                                </div>
+                <Popup
+                    trigger={<button className="open">Info</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
+                            <div className="content">
+                                <About />
                             </div>
-                        )}
-                    </Popup>
-                    <Popup
-                        trigger={<button className="open">Ikoner</button>}
-                        modal
-                        nested
-                    >
-                        {(close) => (
-                            <div className="modal">
-                                <button className="close" onClick={close}>
-                                    &times;
-                                </button>
-                                <div className="content">
-                                    <Credits />
-                                </div>
+                        </div>
+                    )}
+                </Popup>
+                <Popup
+                    trigger={<button className="open">Ikoner</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
+                            <div className="content">
+                                <Credits />
                             </div>
-                        )}
-                    </Popup>
-                    {/* Kolla om användaren är inloggad */}
-                    {!isLoggedIn ? (
-                        <>
-                            <AuthActions>
-                                <Popup
-                                    trigger={
-                                        <button className="open">
-                                            Registrera
-                                        </button>
-                                    }
-                                    modal
-                                    nested
-                                >
-                                    {(close) => (
-                                        <div className="modal">
-                                            <button
-                                                className="close"
-                                                onClick={close}
-                                            >
-                                                &times;
-                                            </button>
-                                            <div className="content">
-                                                <Register />
-                                            </div>
-                                        </div>
-                                    )}
-                                </Popup>
-                                <Popup
-                                    trigger={
-                                        <button className="open">
-                                            Logga in
-                                        </button>
-                                    }
-                                    modal
-                                    nested
-                                >
-                                    {(close) => (
-                                        <div className="modal">
-                                            <button
-                                                className="close"
-                                                onClick={close}
-                                            >
-                                                &times;
-                                            </button>
-                                            <div className="content">
-                                                <Login />
-                                            </div>
-                                        </div>
-                                    )}
-                                </Popup>
-                            </AuthActions>
-                        </>
-                    ) : (
-                        /* För inloggade användare */
-                        <>
+                        </div>
+                    )}
+                </Popup>
+                {/* Kolla om användaren är inloggad */}
+                {!isLoggedIn ? (
+                    <>
+                        <AuthActions>
                             <Popup
                                 trigger={
-                                    <button className="open">Ny plats</button>
+                                    <button className="open">Registrera</button>
                                 }
                                 modal
                                 nested
@@ -155,21 +99,62 @@ function App() {
                                             &times;
                                         </button>
                                         <div className="content">
-                                            <NewMarker />
+                                            <Register />
                                         </div>
                                     </div>
                                 )}
                             </Popup>
-                            <UserInformation>
-                                <h4>{userEmail}</h4>
-                                <LogoutButton onClick={logout}>
-                                    Logga ut
-                                </LogoutButton>
-                            </UserInformation>
-                        </>
-                    )}
-                </nav>
-            </HeaderMain>
+                            <Popup
+                                trigger={
+                                    <button className="open">Logga in</button>
+                                }
+                                modal
+                                nested
+                            >
+                                {(close) => (
+                                    <div className="modal">
+                                        <button
+                                            className="close"
+                                            onClick={close}
+                                        >
+                                            &times;
+                                        </button>
+                                        <div className="content">
+                                            <Login />
+                                        </div>
+                                    </div>
+                                )}
+                            </Popup>
+                        </AuthActions>
+                    </>
+                ) : (
+                    /* För inloggade användare */
+                    <>
+                        <Popup
+                            trigger={<button className="open">Ny plats</button>}
+                            modal
+                            nested
+                        >
+                            {(close) => (
+                                <div className="modal">
+                                    <button className="close" onClick={close}>
+                                        &times;
+                                    </button>
+                                    <div className="content">
+                                        <NewMarker />
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
+                        <UserInformation>
+                            <h4>{userEmail}</h4>
+                            <LogoutButton onClick={logout}>
+                                Logga ut
+                            </LogoutButton>
+                        </UserInformation>
+                    </>
+                )}
+            </nav>
             <Map />
         </>
     )
@@ -178,29 +163,6 @@ function App() {
 export default App
 
 // Styling
-const HeaderMain = styled.header`
-    background-color: #000;
-    margin: 0;
-    padding: 0.2rem;
-    color: white;
-    text-align: center;
-    h1 {
-        color: #006aa7;
-        font-family: 'Oswald', sans-serif;
-        font-size: 2rem;
-    }
-
-    strong {
-        color: #fecc02;
-        font-family: 'Oswald', sans-serif;
-    }
-    @media (max-width: 640px) {
-        h1 {
-            font-size: 2.3rem;
-        }
-    }
-`
-
 const UserInformation = styled.section`
     display: flex;
     margin: 1rem;
@@ -209,6 +171,7 @@ const UserInformation = styled.section`
         font-family: 'Oswald', sans-serif;
         font-weight: 600;
         font-size: 1rem;
+        color: #000;
     }
 `
 

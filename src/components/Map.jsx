@@ -73,9 +73,11 @@ function MapPart() {
             .update({
                 name: updatedMarker.name,
                 icon: updatedMarker.icon,
-                popupcontent: updatedMarker.popupcontent
+                popupcontent: updatedMarker.popupcontent,
+                score: updatedMarker.score
             })
             .eq('id', updatedMarker.id)
+            .select()
         if (error) {
             console.error('Fel vid redigering:', error)
         } else {
@@ -156,6 +158,7 @@ function MapPart() {
                                             <>
                                                 <h3>{marker.name}</h3>
                                                 <p>{marker.popupcontent}</p>
+                                                <h3>Betyg: {marker.score}</h3>
                                                 {isLoggedIn && (
                                                     <>
                                                         <RemoveButton
@@ -189,7 +192,6 @@ function MapPart() {
             </MapContainer>
             {clickedPosition && (
                 <>
-                    {console.log('Position selected:', clickedPosition)}
                     <PositionInfo>
                         <p>Latitude: {clickedPosition.lat}</p>
                         <p>Longitude: {clickedPosition.lng}</p>
@@ -241,7 +243,7 @@ const EditButton = styled.button`
 `
 const PositionInfo = styled.div`
     position: fixed;
-    top: 20%;
+    top: 1rem;
     left: 10%;
     background: #fff;
     padding: 0.5rem;

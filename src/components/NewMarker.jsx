@@ -9,13 +9,15 @@ function NewMarker() {
         lat: '',
         lng: '',
         popupcontent: '',
-        icon: ''
+        icon: '',
+        score: ''
     })
     const [alert, setAlert] = useState({ type: '', message: '' })
 
     const validateText = (text) => /^[a-zA-ZåäöÅÄÖ\s0-9.,'!?-]+$/.test(text)
     const validateNumber = (num) => /^-?\d+(\.\d+)?$/.test(num)
-    const validateLatLng = (num) => /^-?\d{1,2}\.\d+$/.test(num) // Ensures there is a '.' after first 1-2 digits
+    const validateLatLng = (num) => /^-?\d{1,2}\.\d+$/.test(num)
+    const validateScore = (score) => /^[1-5]$/.test(score)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -65,8 +67,15 @@ function NewMarker() {
         ) {
             setAlert({
                 type: 'error',
-                message:
-                    'Latitud och longitud måste vara nummer och ha en punkt efter de första 1-2 siffrorna!'
+                message: 'Latitud och longitud måste vara giltiga nummer!'
+            })
+            return
+        }
+
+        if (!validateScore(form.score)) {
+            setAlert({
+                type: 'error',
+                message: 'Betyg måste vara ett heltal mellan 1 och 5!'
             })
             return
         }
@@ -82,6 +91,7 @@ function NewMarker() {
                 lng: parseFloat(form.lng),
                 popupcontent: sanitizedPopupContent,
                 icon: form.icon,
+                score: parseInt(form.score, 10),
                 user_id: userId
             }
         ])
@@ -94,7 +104,14 @@ function NewMarker() {
             console.error('Fel vid ny plats:', error)
         } else {
             setAlert({ type: 'success', message: 'Ny plats tillagd!' })
-            setForm({ name: '', lat: '', lng: '', popupcontent: '', icon: '' })
+            setForm({
+                name: '',
+                lat: '',
+                lng: '',
+                popupcontent: '',
+                icon: '',
+                score: ''
+            })
         }
     }
 
@@ -105,7 +122,7 @@ function NewMarker() {
                 <Alert severity={alert.type}>{alert.message}</Alert>
             )}
             <form onSubmit={handleSubmit} className="add-marker-form">
-                <label>Namn</label>
+                <label>Namn*</label>
                 <input
                     type="text"
                     name="name"
@@ -114,7 +131,7 @@ function NewMarker() {
                     required
                 />
 
-                <label>Latitud</label>
+                <label>Latitud*</label>
                 <input
                     type="number"
                     step="any"
@@ -124,7 +141,7 @@ function NewMarker() {
                     required
                 />
 
-                <label>Longitud</label>
+                <label>Longitud*</label>
                 <input
                     type="number"
                     step="any"
@@ -134,20 +151,30 @@ function NewMarker() {
                     required
                 />
 
-                <label>Beskrivning (frivillig)</label>
+                <label>Beskrivning</label>
                 <textarea
                     name="popupcontent"
                     value={form.popupcontent}
                     onChange={handleChange}
                 />
 
-                <label>Icon (frivillig)</label>
+                <label>Icon</label>
                 <select name="icon" value={form.icon} onChange={handleChange}>
                     <option value="">Standard</option>
                     <option value="/img/boat.webp">Båt</option>
                     <option value="/img/food.webp">Mat</option>
                     <option value="/img/swim.webp">Simning</option>
                 </select>
+
+                <label>Poäng (1-5)</label>
+                <input
+                    type="number"
+                    name="score"
+                    value={form.score}
+                    onChange={handleChange}
+                    min="1"
+                    max="5"
+                />
 
                 <button type="submit">Lägg till</button>
             </form>
