@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 // Databasen
 import { supabase } from '../helper/supabaseClient'
 import styled from 'styled-components'
+import Rating from '@mui/material/Rating'
 // Leaflet
 import 'leaflet/dist/leaflet.css'
 import {
@@ -169,13 +170,18 @@ function MapPart() {
                                                 <p>{marker.popupcontent}</p>
                                                 {/* kollar om ett betyg finns */}
                                                 {marker.score && (
-                                                    <h3>
-                                                        Betyg: {marker.score}
-                                                    </h3>
+                                                    <Rating
+                                                        name="size-medium"
+                                                        defaultValue={
+                                                            marker.score
+                                                        }
+                                                        precision={0.5}
+                                                        readOnly
+                                                    />
                                                 )}
                                                 {/* Knapparna syns bara om man är inloggad */}
                                                 {isLoggedIn && (
-                                                    <>
+                                                    <EditMarkerButtons>
                                                         <RemoveButton
                                                             onClick={() =>
                                                                 handleRemove(
@@ -194,7 +200,7 @@ function MapPart() {
                                                         >
                                                             Redigera
                                                         </EditButton>
-                                                    </>
+                                                    </EditMarkerButtons>
                                                 )}
                                             </>
                                         )}
@@ -225,6 +231,11 @@ function MapPart() {
 export default MapPart
 
 // Styling
+const EditMarkerButtons = styled.section`
+    margin-top: 0.5rem;
+    display: flex;
+`
+
 const RemoveButton = styled.button`
     width: clamp(3rem, 20vw, 6rem);
     margin-right: 1rem;

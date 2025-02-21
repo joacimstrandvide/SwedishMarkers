@@ -169,7 +169,7 @@ const UserInformation = styled.section`
     flex-wrap: wrap;
     h4 {
         font-family: 'Oswald', sans-serif;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 1rem;
         color: #000;
     }

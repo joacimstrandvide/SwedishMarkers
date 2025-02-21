@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
 import { supabase } from '../helper/supabaseClient'
 import styled from 'styled-components'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const AuthContext = createContext()
 
@@ -31,7 +32,9 @@ function AuthProvider({ children }) {
     if (loading) {
         return (
             <>
-                <LoadingText>Loading...</LoadingText>
+                <LoadingText>
+                    Laddar... <CircularProgress />
+                </LoadingText>
             </>
         )
     }
@@ -47,5 +50,5 @@ export { AuthProvider, AuthContext }
 
 const LoadingText = styled.h2`
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 `

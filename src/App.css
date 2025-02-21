@@ -101,7 +101,7 @@ div.leaflet-marker-icon {
 
 .new-marker-container h3 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.2rem;
 }
 
@@ -114,7 +114,7 @@ div.leaflet-marker-icon {
 .add-marker-form label {
     font-family: 'Oswald', sans-serif;
     text-align: left;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .add-marker-form input {
