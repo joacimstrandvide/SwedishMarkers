@@ -25,6 +25,7 @@ function MapPart() {
     const [editingMarker, setEditingMarker] = useState(null)
     const [clickedPosition, setClickedPosition] = useState(null)
 
+    /* Hämtar datan */
     useEffect(() => {
         const fetchMarkers = async () => {
             const { data, error } = await supabase.from('markers').select('*')
@@ -34,6 +35,7 @@ function MapPart() {
         fetchMarkers()
     }, [])
 
+    /* Kluster ikonen för markörer som är nära varandra när man zoomar ut */
     const createClusterIcon = (cluster) => {
         return new divIcon({
             html: `<div className="cirlce">${cluster.getChildCount()}</div>`,
@@ -42,6 +44,7 @@ function MapPart() {
         })
     }
 
+    /* Ta bort en markör i databasen */
     const handleRemove = async (id) => {
         const { error } = await supabase.from('markers').delete().eq('id', id)
         if (error) {
@@ -67,6 +70,7 @@ function MapPart() {
         }, 10)
     }
 
+    /* Uppdatera en markör i databasen */
     const handleSave = async (updatedMarker) => {
         const { error } = await supabase
             .from('markers')
@@ -90,6 +94,7 @@ function MapPart() {
         }
     }
 
+    /* Visar användaren Lat och Lng när den klickar */
     const MapClickHandler = () => {
         useMapEvents({
             click: (e) => {
@@ -107,10 +112,12 @@ function MapPart() {
     return (
         <>
             <MapContainer
+                /* Vart på kartan som först visas och hur inzommat */
                 center={[59.40360214513208, 18.32974331322703]}
                 zoom={11}
             >
                 <MapClickHandler />
+                {/* Olika kartor */}
                 <LayersControl position="topright">
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
@@ -129,6 +136,7 @@ function MapPart() {
                         iconCreateFunction={createClusterIcon}
                     >
                         {data.map((marker) => {
+                            /* Hanterar vilken ikon som används */
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
@@ -156,9 +164,16 @@ function MapPart() {
                                             />
                                         ) : (
                                             <>
+                                                {/* Innehållet för varje plats */}
                                                 <h3>{marker.name}</h3>
                                                 <p>{marker.popupcontent}</p>
-                                                <h3>Betyg: {marker.score}</h3>
+                                                {/* kollar om ett betyg finns */}
+                                                {marker.score && (
+                                                    <h3>
+                                                        Betyg: {marker.score}
+                                                    </h3>
+                                                )}
+                                                {/* Knapparna syns bara om man är inloggad */}
                                                 {isLoggedIn && (
                                                     <>
                                                         <RemoveButton
@@ -190,10 +205,13 @@ function MapPart() {
                     </MarkerClusterGroup>
                 </LayersControl>
             </MapContainer>
+            {/* Visar Lat och Lng om användaren klickar på kartan */}
             {clickedPosition && (
                 <>
                     <PositionInfo>
-                        <p>{clickedPosition.lat} {clickedPosition.lng}</p>
+                        <p>
+                            {clickedPosition.lat} {clickedPosition.lng}
+                        </p>
                         <button onClick={() => setClickedPosition(null)}>
                             Stäng
                         </button>

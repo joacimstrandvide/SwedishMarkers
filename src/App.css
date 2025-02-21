@@ -61,7 +61,7 @@ div.leaflet-marker-icon {
 /* For Mobile */
 @media (max-width: 640px) {
     .popup-content {
-        width: 80%;
+        width: 80% !important;
     }
 }
 

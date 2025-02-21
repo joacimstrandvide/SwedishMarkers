@@ -75,9 +75,9 @@ const LoginMain = styled.section`
     }
 
     form input {
-        width: auto;
+        width: 90%;
         margin: 0.5rem;
-        height: 40px;
+        height: 3rem;
         padding: 0.3rem;
         border-radius: 9px;
         outline: none;
