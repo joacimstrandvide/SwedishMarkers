@@ -193,8 +193,7 @@ function MapPart() {
             {clickedPosition && (
                 <>
                     <PositionInfo>
-                        <p>Latitude: {clickedPosition.lat}</p>
-                        <p>Longitude: {clickedPosition.lng}</p>
+                        <p>{clickedPosition.lat} {clickedPosition.lng}</p>
                         <button onClick={() => setClickedPosition(null)}>
                             Stäng
                         </button>
@@ -244,7 +243,8 @@ const EditButton = styled.button`
 const PositionInfo = styled.div`
     position: fixed;
     top: 1rem;
-    left: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     background: #fff;
     padding: 0.5rem;
     border-radius: 0.5rem;

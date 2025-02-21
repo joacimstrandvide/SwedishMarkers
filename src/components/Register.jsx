@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Alert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
 import { supabase } from '../helper/supabaseClient'
 import { useAuth } from '../context/AuthContext'
 
@@ -10,31 +11,61 @@ function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({ type: '', message: '' })
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    first_name: name
-                }
-            }
-        })
+        setLoading(true)
+        setAlert({ type: '', message: '' })
 
-        if (error) {
-            setAlert({ type: 'error', message: 'Ett fel inträffade!' })
-            console.log(error)
-            setName('')
-            setEmail('')
-            setPassword('')
+        const trimmedEmail = email.trim()
+        const trimmedName = name.trim()
+        const trimmedPassword = password.trim()
+
+        if (!trimmedName || !trimmedEmail || !trimmedPassword) {
+            setAlert({ type: 'error', message: 'Alla fält måste fyllas i!' })
+            setLoading(false)
             return
         }
 
-        if (data) {
+        try {
+            // Kolla om emailen redan finns
+            const { data: existingUsers, error: userCheckError } =
+                await supabase
+                    .from('auth.users')
+                    .select('email')
+                    .eq('email', trimmedEmail)
+
+            if (userCheckError) throw userCheckError
+            if (existingUsers.length > 0) {
+                setAlert({
+                    type: 'error',
+                    message: 'E-postadressen används redan!'
+                })
+                setLoading(false)
+                return
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email: trimmedEmail,
+                password: trimmedPassword,
+                options: {
+                    data: { first_name: trimmedName }
+                }
+            })
+
+            if (error) throw error
+
             setAlert({ type: 'success', message: 'Nytt Konto Skapat!' })
             login()
+        } catch (error) {
+            setAlert({
+                type: 'error',
+                message: error.message || 'Ett fel inträffade!'
+            })
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -67,7 +98,13 @@ function Register() {
                         placeholder="Lösenord"
                         required
                     />
-                    <button type="submit">Skapa Konto</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? (
+                            <CircularProgress size={24} color="inherit" />
+                        ) : (
+                            'Skapa Konto'
+                        )}
+                    </button>
                 </form>
             </RegisterMain>
         </>
@@ -117,5 +154,13 @@ const RegisterMain = styled.section`
         font-weight: 600;
         font-size: 1.1rem;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    form button:disabled {
+        background-color: gray;
+        cursor: not-allowed;
     }
 `
