@@ -95,7 +95,7 @@ function MapPart() {
         }
     }
 
-    /* Visar användaren Lat och Lng när den klickar */
+    /* När användaren klickar på kartan */
     const MapClickHandler = () => {
         useMapEvents({
             click: (e) => {
