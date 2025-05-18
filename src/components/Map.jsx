@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import styles from './Map.module.css'
 import Rating from '@mui/material/Rating'
 // Leaflet
 import 'leaflet/dist/leaflet.css'
@@ -16,9 +16,10 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 
 function MapPart() {
     const [data, setData] = useState([])
-    const [clickedPosition, setClickedPosition] = useState(null)
+    const [osmData, setOsmData] = useState(null) // OSM data
+    const [loadingOsm, setLoadingOsm] = useState(false)
 
-    // Fetch from JSON hosted on GitHub
+    // Fetch markers JSON
     useEffect(() => {
         const fetchMarkers = async () => {
             try {
@@ -34,9 +35,10 @@ function MapPart() {
         fetchMarkers()
     }, [])
 
+    // Create cluster icon
     const createClusterIcon = (cluster) => {
         return new divIcon({
-            html: `<div className="cirlce">${cluster.getChildCount()}</div>`,
+            html: `<div className="circle">${cluster.getChildCount()}</div>`,
             iconSize: [33, 33],
             className: 'custom-cluster-icon'
         })
@@ -47,23 +49,48 @@ function MapPart() {
     const MapClickHandler = () => {
         useMapEvents({
             click: (e) => {
-                setClickedPosition({ lat: e.latlng.lat, lng: e.latlng.lng })
+                setOsmData(null)
             },
             contextmenu: (e) => {
-                const newPosition = { lat: e.latlng.lat, lng: e.latlng.lng }
-                setClickedPosition(newPosition)
+                setOsmData(null)
             }
         })
 
         return null
     }
 
+    // Fetch OSM data
+    const fetchOsmDetails = async (lat, lng) => {
+        setLoadingOsm(true)
+        const query = `
+    [out:json][timeout:10];
+    (
+      node(around:50,${lat},${lng})["name"];
+      way(around:50,${lat},${lng})["name"];
+      relation(around:50,${lat},${lng})["name"];
+    );
+    out center qt;
+  `
+        const url =
+            'https://overpass-api.de/api/interpreter?data=' +
+            encodeURIComponent(query)
+
+        try {
+            const response = await fetch(url)
+            if (!response.ok) throw new Error('Overpass API fel')
+            const json = await response.json()
+            setOsmData(json.elements)
+        } catch (error) {
+            console.error('Kunde inte hämta OSM data:', error)
+            setOsmData(null)
+        } finally {
+            setLoadingOsm(false)
+        }
+    }
+
     return (
         <>
-            <MapContainer
-                center={[59.40360214513208, 18.32974331322703]}
-                zoom={11}
-            >
+            <MapContainer center={[59.4036, 18.3297]} zoom={11}>
                 <MapClickHandler />
                 <LayersControl position="topright">
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
@@ -78,6 +105,7 @@ function MapPart() {
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                         />
                     </LayersControl.BaseLayer>
+
                     <MarkerClusterGroup
                         chunkedLoading
                         iconCreateFunction={createClusterIcon}
@@ -89,6 +117,11 @@ function MapPart() {
                                     : `${process.env.PUBLIC_URL}/img/location.webp`,
                                 iconSize: [30, 30]
                             })
+
+                            const handleMarkerClick = () => {
+                                fetchOsmDetails(marker.lat, marker.lng)
+                            }
+
                             return (
                                 <Marker
                                     key={marker.id}
@@ -97,18 +130,87 @@ function MapPart() {
                                     ref={(ref) =>
                                         (markerRefs.current[marker.id] = ref)
                                     }
+                                    eventHandlers={{
+                                        click: handleMarkerClick
+                                    }}
                                 >
                                     <Popup>
-                                        <h3>{marker.name}</h3>
-                                        <p>{marker.popupcontent}</p>
-                                        {marker.score && (
-                                            <Rating
-                                                name="size-medium"
-                                                defaultValue={marker.score}
-                                                precision={0.5}
-                                                readOnly
-                                            />
-                                        )}
+                                        <div className={styles.popupContent}>
+                                            <h3>{marker.name}</h3>
+                                            <p>{marker.popupcontent}</p>
+                                            {marker.score && (
+                                                <Rating
+                                                    name="size-medium"
+                                                    defaultValue={marker.score}
+                                                    precision={0.5}
+                                                    readOnly
+                                                />
+                                            )}
+
+                                            {loadingOsm && (
+                                                <p>Laddar OSM data...</p>
+                                            )}
+
+                                            {osmData && osmData.length > 0 && (
+                                                <div className={styles.osmInfo}>
+                                                    <h4>OpenStreetMap Info:</h4>
+                                                    <div
+                                                        className={
+                                                            styles.osmScroll
+                                                        }
+                                                    >
+                                                        {osmData.map(
+                                                            (element) => (
+                                                                <div
+                                                                    key={
+                                                                        element.id
+                                                                    }
+                                                                    className={
+                                                                        styles.osmItem
+                                                                    }
+                                                                >
+                                                                    {element.tags &&
+                                                                        Object.entries(
+                                                                            element.tags
+                                                                        ).map(
+                                                                            ([
+                                                                                key,
+                                                                                value
+                                                                            ]) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        key
+                                                                                    }
+                                                                                >
+                                                                                    <strong>
+                                                                                        {key.replace(
+                                                                                            /_/g,
+                                                                                            ' '
+                                                                                        )}
+                                                                                        :
+                                                                                    </strong>{' '}
+                                                                                    {
+                                                                                        value
+                                                                                    }
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    <hr />
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {osmData &&
+                                                osmData.length === 0 &&
+                                                !loadingOsm && (
+                                                    <p>
+                                                        Ingen OSM data hittades.
+                                                    </p>
+                                                )}
+                                        </div>
                                     </Popup>
                                 </Marker>
                             )
@@ -116,43 +218,8 @@ function MapPart() {
                     </MarkerClusterGroup>
                 </LayersControl>
             </MapContainer>
-            {clickedPosition && (
-                <PositionInfo>
-                    <p>
-                        {clickedPosition.lat} {clickedPosition.lng}
-                    </p>
-                    <button onClick={() => setClickedPosition(null)}>
-                        Stäng
-                    </button>
-                </PositionInfo>
-            )}
         </>
     )
 }
 
 export default MapPart
-
-// Styling remains unchanged
-const PositionInfo = styled.div`
-    position: fixed;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    font-family: 'Oswald', sans-serif;
-
-    button {
-        padding: 0.4rem;
-        border-radius: 0.3rem;
-        color: #fff;
-        background-color: #006aa7;
-        border: none;
-        font-weight: 500;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-`

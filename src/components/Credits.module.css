@@ -1,0 +1,10 @@
+.creditContainer {
+    display: flex;
+    padding: 0.5rem;
+}
+
+.creditContainer a {
+    color: #006aa7;
+    text-decoration: none;
+    margin-right: 1rem; /* optional spacing between links */
+}

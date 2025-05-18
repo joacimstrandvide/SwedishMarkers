@@ -1,0 +1,49 @@
+.positionInfo {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    font-family: 'Oswald', sans-serif;
+}
+
+.positionInfo button {
+    padding: 0.4rem;
+    border-radius: 0.3rem;
+    color: #fff;
+    background-color: #006aa7;
+    border: none;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.popupContent {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    box-sizing: content-box;
+}
+
+.osmInfo {
+    margin-top: 10px;
+}
+
+.osmScroll {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.osmItem {
+    margin-bottom: 10px;
+}
+
+.osmItem div {
+    margin: 2px 0;
+}
