@@ -64,12 +64,22 @@ function MapPart() {
         setLoadingOsm(true)
         const query = `
     [out:json][timeout:10];
-    (
-      node(around:50,${lat},${lng})["name"];
-      way(around:50,${lat},${lng})["name"];
-      relation(around:50,${lat},${lng})["name"];
-    );
-    out center qt;
+(
+  node(around:20,${lat},${lng})[historic];
+  node(around:20,${lat},${lng})[amenity];
+  way(around:20,${lat},${lng})[amenity];
+  way(around:20,${lat},${lng})[historic];
+  node(around:20,${lat},${lng})[natural];
+  node(around:20,${lat},${lng})[leisure=park];
+  node(around:20,${lat},${lng})[leisure=nature_reserve];
+  node(around:20,${lat},${lng})[landuse=forest];
+  way(around:20,${lat},${lng})[natural];
+  way(around:20,${lat},${lng})[leisure=park];
+  way(around:20,${lat},${lng})[leisure=nature_reserve];
+  way(around:20,${lat},${lng})[landuse=forest];
+  relation(around:20,${lat},${lng})[boundary=national_park];
+);
+out center qt;
   `
         const url =
             'https://overpass-api.de/api/interpreter?data=' +
