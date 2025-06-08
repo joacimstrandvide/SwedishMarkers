@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './Credits.module.css'
 
 function Credits() {
@@ -30,6 +29,18 @@ function Credits() {
                 title="restaurant icons"
             >
                 Restaurant icons created by Freepik - Flaticon
+            </a>
+            <a
+                href="https://www.flaticon.com/free-icons/monument"
+                title="monument icons"
+            >
+                Monument icons created by Icons Ideal - Flaticon
+            </a>
+            <a
+                href="https://www.flaticon.com/free-icons/nature"
+                title="nature icons"
+            >
+                Nature icons created by Eucalyp - Flaticon
             </a>
         </section>
     )

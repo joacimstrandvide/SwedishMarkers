@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+// CSS
 import styles from './Map.module.css'
 import Rating from '@mui/material/Rating'
 // Leaflet
@@ -14,12 +15,36 @@ import {
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 
-function MapPart() {
+const OsmInfo = ({ data }) => {
+    if (!data || data.length === 0) return <p>Ingen OSM data hittades.</p>
+    // Visa OSM data
+    return (
+        <div className={styles.osmInfo}>
+            <h4>OpenStreetMap Info:</h4>
+            <div className={styles.osmScroll}>
+                {data.map((element) => (
+                    <div key={element.id} className={styles.osmItem}>
+                        {element.tags &&
+                            Object.entries(element.tags).map(([key, value]) => (
+                                <div key={key}>
+                                    <strong>{key.replace(/_/g, ' ')}:</strong>{' '}
+                                    {value}
+                                </div>
+                            ))}
+                        <hr />
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function MapPart({ selectedCategory }) {
     const [data, setData] = useState([])
     const [osmData, setOsmData] = useState(null) // OSM data
     const [loadingOsm, setLoadingOsm] = useState(false)
 
-    // Fetch markers JSON
+    // Hämta plats data
     useEffect(() => {
         const fetchMarkers = async () => {
             try {
@@ -35,7 +60,7 @@ function MapPart() {
         fetchMarkers()
     }, [])
 
-    // Create cluster icon
+    // Skapa kluster ikon
     const createClusterIcon = (cluster) => {
         return new divIcon({
             html: `<div className="circle">${cluster.getChildCount()}</div>`,
@@ -59,7 +84,7 @@ function MapPart() {
         return null
     }
 
-    // Fetch OSM data
+    // Hämta OSM data
     const fetchOsmDetails = async (lat, lng) => {
         setLoadingOsm(true)
         const query = `
@@ -98,6 +123,11 @@ out center qt;
         }
     }
 
+    const filteredData =
+        selectedCategory === 'all'
+            ? data
+            : data.filter((marker) => marker.icon === selectedCategory)
+
     return (
         <>
             <MapContainer center={[59.4036, 18.3297]} zoom={11}>
@@ -120,7 +150,7 @@ out center qt;
                         chunkedLoading
                         iconCreateFunction={createClusterIcon}
                     >
-                        {data.map((marker) => {
+                        {filteredData.map((marker) => {
                             const markerIcon = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
@@ -156,70 +186,13 @@ out center qt;
                                                     readOnly
                                                 />
                                             )}
-
+                                            {/* OSM data */}
                                             {loadingOsm && (
                                                 <p>Laddar OSM data...</p>
                                             )}
-
-                                            {osmData && osmData.length > 0 && (
-                                                <div className={styles.osmInfo}>
-                                                    <h4>OpenStreetMap Info:</h4>
-                                                    <div
-                                                        className={
-                                                            styles.osmScroll
-                                                        }
-                                                    >
-                                                        {osmData.map(
-                                                            (element) => (
-                                                                <div
-                                                                    key={
-                                                                        element.id
-                                                                    }
-                                                                    className={
-                                                                        styles.osmItem
-                                                                    }
-                                                                >
-                                                                    {element.tags &&
-                                                                        Object.entries(
-                                                                            element.tags
-                                                                        ).map(
-                                                                            ([
-                                                                                key,
-                                                                                value
-                                                                            ]) => (
-                                                                                <div
-                                                                                    key={
-                                                                                        key
-                                                                                    }
-                                                                                >
-                                                                                    <strong>
-                                                                                        {key.replace(
-                                                                                            /_/g,
-                                                                                            ' '
-                                                                                        )}
-                                                                                        :
-                                                                                    </strong>{' '}
-                                                                                    {
-                                                                                        value
-                                                                                    }
-                                                                                </div>
-                                                                            )
-                                                                        )}
-                                                                    <hr />
-                                                                </div>
-                                                            )
-                                                        )}
-                                                    </div>
-                                                </div>
+                                            {!loadingOsm && (
+                                                <OsmInfo data={osmData} />
                                             )}
-
-                                            {osmData &&
-                                                osmData.length === 0 &&
-                                                !loadingOsm && (
-                                                    <p>
-                                                        Ingen OSM data hittades.
-                                                    </p>
-                                                )}
                                         </div>
                                     </Popup>
                                 </Marker>

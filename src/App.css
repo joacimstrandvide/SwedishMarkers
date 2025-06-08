@@ -15,7 +15,7 @@ body {
     height: 100vh;
 }
 
-/* Set width and height to match screen size */
+/* sätt höjd och bredd att matcha skärmen */
 html,
 body,
 #map {
@@ -23,7 +23,7 @@ body,
     width: 100vw;
 }
 
-/* Get rid of weird border on zoom buttons */
+/* Ta bort border på zooma in & ut knappen */
 html
     body
     div#map.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom
@@ -33,12 +33,12 @@ html
     border: none;
 }
 
-/* Make sure that map and distance markers are behind when the menu is open */
+/* Se till att kartan är bakom när menyn är öppen */
 div.leaflet-top {
     z-index: 800;
 }
 
-/* Cluster icon */
+/* Cluster ikon */
 div.leaflet-marker-icon {
     height: 2rem;
     width: 2rem;
@@ -53,12 +53,11 @@ div.leaflet-marker-icon {
     font-size: 1.2rem;
 }
 
-/* Popup Content */
+/* Popup innehål */
 .popup-content {
     width: 50%;
 }
 
-/* For Mobile */
 @media (max-width: 640px) {
     .popup-content {
         width: 80% !important;
@@ -91,7 +90,7 @@ div.leaflet-marker-icon {
     border: none;
 }
 
-/* Navigation menu */
+/* Navigations menyn */
 .navbar {
     position: fixed;
     top: 0;
@@ -122,12 +121,10 @@ div.leaflet-marker-icon {
     }
 }
 
-/* Show navbar when menu-toggle is checked */
 #menu-toggle:checked ~ .navbar {
     left: 0;
 }
 
-/* Navigation items */
 .navbar .open {
     background: none;
     border: none;
@@ -144,7 +141,6 @@ div.leaflet-marker-icon {
     color: #f0a500;
 }
 
-/* menu bar */
 .menu-button {
     position: fixed;
     top: 5rem;
@@ -168,7 +164,7 @@ div.leaflet-marker-icon {
     transition: 0.4s;
 }
 
-/* Hamburger menu animation */
+/* Hamburger meny animation */
 #menu-toggle:checked + .menu-button .bar:nth-child(1) {
     transform: rotate(-45deg) translate(-5px, 6px);
 }
