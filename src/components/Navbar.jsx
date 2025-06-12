@@ -10,13 +10,17 @@ function Navbar({ selectedCategory, onCategoryChange }) {
     return (
         <>
             {/* Navigationen */}
-            <input type="checkbox" id="menu-toggle" className="menu-toggle" />
-            <label htmlFor="menu-toggle" className="menu-button">
-                <div className="bar"></div>
-                <div className="bar"></div>
-                <div className="bar"></div>
+            <input
+                type="checkbox"
+                id="menu-toggle"
+                className={styles['menu-toggle']}
+            />
+            <label htmlFor="menu-toggle" className={styles['menu-button']}>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
+                <div className={styles.bar}></div>
             </label>
-            <nav className="navbar">
+            <nav className={styles.navbar}>
                 {/* Titel */}
                 <h1>
                     Swedish<strong>Markers</strong>
@@ -38,7 +42,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                     </select>
                 </div>
                 <Popup
-                    trigger={<button className="open">Info</button>}
+                    trigger={<button className={styles.open}>Info</button>}
                     modal
                     nested
                 >
@@ -54,7 +58,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                     )}
                 </Popup>
                 <Popup
-                    trigger={<button className="open">Ikoner</button>}
+                    trigger={<button className={styles.open}>Ikoner</button>}
                     modal
                     nested
                 >
