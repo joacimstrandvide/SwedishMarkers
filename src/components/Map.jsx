@@ -73,11 +73,21 @@ function MapPart({ selectedCategory }) {
 
     const MapClickHandler = () => {
         useMapEvents({
-            click: (e) => {
+            click: () => {
                 setOsmData(null)
             },
             contextmenu: (e) => {
+                const lat = e.latlng.lat.toFixed(6)
+                const lng = e.latlng.lng.toFixed(6)
+
                 setOsmData(null)
+                // Skapa en ny issue för att lägga till en ny plats
+                const issueBody = encodeURIComponent(
+                    `**Namn:**\n\n\n**Beskrivning:**\n\n\n**Latitude (lat):**\n${lat}\n\n**Longitude (lng):**\n${lng}\n\n**Ikon:**\n\n**Poäng:**\n`
+                )
+                const issueUrl = `https://github.com/joacimstrandvide/SwedishMarkers-data/issues/new?template=ny-plats-.md&body=${issueBody}`
+
+                window.open(issueUrl, '_blank')
             }
         })
 

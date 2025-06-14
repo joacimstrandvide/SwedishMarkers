@@ -37,6 +37,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                         <option value="/img/boat.webp">Båt</option>
                         <option value="/img/food.webp">Mat</option>
                         <option value="/img/swim.webp">Simning</option>
+                        <option value="/img/kayak.webp">Kajak</option>
                         <option value="/img/historic.webp">Historiskt</option>
                         <option value="/img/nature.webp">Natur</option>
                     </select>

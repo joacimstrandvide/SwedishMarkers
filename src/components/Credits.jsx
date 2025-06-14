@@ -42,6 +42,12 @@ function Credits() {
             >
                 Nature icons created by Eucalyp - Flaticon
             </a>
+            <a
+                href="https://www.flaticon.com/free-icons/kayak"
+                title="kayak icons"
+            >
+                Kayak icons created by Freepik - Flaticon
+            </a>
         </section>
     )
 }
