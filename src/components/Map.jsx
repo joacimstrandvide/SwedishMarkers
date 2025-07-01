@@ -9,8 +9,7 @@ import {
     TileLayer,
     Marker,
     Popup,
-    LayersControl,
-    useMapEvents
+    LayersControl
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
@@ -71,29 +70,6 @@ function MapPart({ selectedCategory }) {
 
     const markerRefs = useRef({})
 
-    const MapClickHandler = () => {
-        useMapEvents({
-            click: () => {
-                setOsmData(null)
-            },
-            contextmenu: (e) => {
-                const lat = e.latlng.lat.toFixed(6)
-                const lng = e.latlng.lng.toFixed(6)
-
-                setOsmData(null)
-                // Skapa en ny issue för att lägga till en ny plats
-                const issueBody = encodeURIComponent(
-                    `**Namn:**\n\n\n**Beskrivning:**\n\n\n**Latitude (lat):**\n${lat}\n\n**Longitude (lng):**\n${lng}\n\n**Ikon:**\n\n**Poäng:**\n`
-                )
-                const issueUrl = `https://github.com/joacimstrandvide/SwedishMarkers-data/issues/new?template=ny-plats-.md&body=${issueBody}`
-
-                window.open(issueUrl, '_blank')
-            }
-        })
-
-        return null
-    }
-
     // Hämta OSM data
     const fetchOsmDetails = async (lat, lng) => {
         setLoadingOsm(true)
@@ -141,7 +117,6 @@ out center qt;
     return (
         <>
             <MapContainer center={[59.4036, 18.3297]} zoom={11}>
-                <MapClickHandler />
                 <LayersControl position="topright">
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
@@ -155,6 +130,37 @@ out center qt;
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                         />
                     </LayersControl.BaseLayer>
+
+                    {/* CartoDB Positron */}
+                    <LayersControl.BaseLayer name="CartoDB Positron">
+                        <TileLayer
+                            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+                            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                        />
+                    </LayersControl.BaseLayer>
+
+                    {/* CartoDB Dark Matter */}
+                    <LayersControl.BaseLayer name="CartoDB Dark Matter">
+                        <TileLayer
+                            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+                            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                        />
+                    </LayersControl.BaseLayer>
+
+                    {/* OpenTopoMap */}
+                    <LayersControl.BaseLayer name="OpenTopoMap">
+                        <TileLayer
+                            attribution='Map data: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
+                            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+                        />
+                    </LayersControl.BaseLayer>
+
+                    <LayersControl.Overlay name="OpenSeaMap Nautical">
+                        <TileLayer
+                            attribution='Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
+                            url="https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png"
+                        />
+                    </LayersControl.Overlay>
 
                     <MarkerClusterGroup
                         chunkedLoading
