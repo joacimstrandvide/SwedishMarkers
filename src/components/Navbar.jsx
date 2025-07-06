@@ -40,6 +40,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                         <option value="/img/kayak.webp">Kajak</option>
                         <option value="/img/historic.webp">Historiskt</option>
                         <option value="/img/nature.webp">Natur</option>
+                        <option value="/img/parking.webp">Parkering</option>
                     </select>
                 </div>
                 <Popup

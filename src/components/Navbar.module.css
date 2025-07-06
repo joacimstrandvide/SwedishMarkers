@@ -74,19 +74,19 @@
 #menu-toggle:checked + .menu-button .bar:nth-child(3) {
     transform: rotate(45deg) translate(-8px, -9px);
 }
+
 @media (max-width: 640px) {
     .menu-button {
-        top: 5rem;
+        top: 0.8rem;
         right: 0.8rem;
     }
 }
 
-/* Show navbar when menu-toggle is checked (fix for CSS modules) */
+/* Show navbar when menu-toggle is checked */
 :global(#menu-toggle:checked) ~ :global(nav) {
     left: 0;
 }
 
-/* Navbar open/info button styles */
 .navbar .open {
     background: none;
     border: none;

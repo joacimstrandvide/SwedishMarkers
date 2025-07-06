@@ -131,7 +131,6 @@ out center qt;
                         />
                     </LayersControl.BaseLayer>
 
-                    {/* CartoDB Positron */}
                     <LayersControl.BaseLayer name="CartoDB Positron">
                         <TileLayer
                             attribution='&copy; <a href="https://carto.com/">CARTO</a>'
@@ -139,15 +138,6 @@ out center qt;
                         />
                     </LayersControl.BaseLayer>
 
-                    {/* CartoDB Dark Matter */}
-                    <LayersControl.BaseLayer name="CartoDB Dark Matter">
-                        <TileLayer
-                            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                        />
-                    </LayersControl.BaseLayer>
-
-                    {/* OpenTopoMap */}
                     <LayersControl.BaseLayer name="OpenTopoMap">
                         <TileLayer
                             attribution='Map data: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>'

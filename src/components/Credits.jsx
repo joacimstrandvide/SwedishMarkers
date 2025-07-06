@@ -48,6 +48,12 @@ function Credits() {
             >
                 Kayak icons created by Freepik - Flaticon
             </a>
+            <a
+                href="https://www.flaticon.com/free-icons/parking-sign"
+                title="parking sign icons"
+            >
+                Parking sign icons created by SyafriStudio - Flaticon
+            </a>
         </section>
     )
 }
