@@ -13,35 +13,24 @@ import {
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+// Sök komponenten
+import OSMFetch from './OSMFetch'
 
-const OsmInfo = ({ data }) => {
-    if (!data || data.length === 0) return <p>Ingen OSM data hittades.</p>
-    // Visa OSM data
-    return (
-        <div className={styles.osmInfo}>
-            <h4>OpenStreetMap Info:</h4>
-            <div className={styles.osmScroll}>
-                {data.map((element) => (
-                    <div key={element.id} className={styles.osmItem}>
-                        {element.tags &&
-                            Object.entries(element.tags).map(([key, value]) => (
-                                <div key={key}>
-                                    <strong>{key.replace(/_/g, ' ')}:</strong>{' '}
-                                    {value}
-                                </div>
-                            ))}
-                        <hr />
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}
+// Fixa default ikon när användaren söker
+import L from 'leaflet'
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: markerIcon2x,
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow
+})
 
 function MapPart({ selectedCategory }) {
     const [data, setData] = useState([])
-    const [osmData, setOsmData] = useState(null) // OSM data
-    const [loadingOsm, setLoadingOsm] = useState(false)
 
     // Hämta plats data
     useEffect(() => {
@@ -70,45 +59,6 @@ function MapPart({ selectedCategory }) {
 
     const markerRefs = useRef({})
 
-    // Hämta OSM data
-    const fetchOsmDetails = async (lat, lng) => {
-        setLoadingOsm(true)
-        const query = `
-    [out:json][timeout:10];
-(
-  node(around:20,${lat},${lng})[historic];
-  node(around:20,${lat},${lng})[amenity];
-  way(around:20,${lat},${lng})[amenity];
-  way(around:20,${lat},${lng})[historic];
-  node(around:20,${lat},${lng})[natural];
-  node(around:20,${lat},${lng})[leisure=park];
-  node(around:20,${lat},${lng})[leisure=nature_reserve];
-  node(around:20,${lat},${lng})[landuse=forest];
-  way(around:20,${lat},${lng})[natural];
-  way(around:20,${lat},${lng})[leisure=park];
-  way(around:20,${lat},${lng})[leisure=nature_reserve];
-  way(around:20,${lat},${lng})[landuse=forest];
-  relation(around:20,${lat},${lng})[boundary=national_park];
-);
-out center qt;
-  `
-        const url =
-            'https://overpass-api.de/api/interpreter?data=' +
-            encodeURIComponent(query)
-
-        try {
-            const response = await fetch(url)
-            if (!response.ok) throw new Error('Overpass API fel')
-            const json = await response.json()
-            setOsmData(json.elements)
-        } catch (error) {
-            console.error('Kunde inte hämta OSM data:', error)
-            setOsmData(null)
-        } finally {
-            setLoadingOsm(false)
-        }
-    }
-
     const filteredData =
         selectedCategory === 'all'
             ? data
@@ -117,6 +67,7 @@ out center qt;
     return (
         <>
             <MapContainer center={[59.4036, 18.3297]} zoom={11}>
+                <OSMFetch />
                 <LayersControl position="topright">
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
@@ -164,10 +115,6 @@ out center qt;
                                 iconSize: [30, 30]
                             })
 
-                            const handleMarkerClick = () => {
-                                fetchOsmDetails(marker.lat, marker.lng)
-                            }
-
                             return (
                                 <Marker
                                     key={marker.id}
@@ -176,9 +123,6 @@ out center qt;
                                     ref={(ref) =>
                                         (markerRefs.current[marker.id] = ref)
                                     }
-                                    eventHandlers={{
-                                        click: handleMarkerClick
-                                    }}
                                 >
                                     <Popup>
                                         <div className={styles.popupContent}>
@@ -191,13 +135,6 @@ out center qt;
                                                     precision={0.5}
                                                     readOnly
                                                 />
-                                            )}
-                                            {/* OSM data */}
-                                            {loadingOsm && (
-                                                <p>Laddar OSM data...</p>
-                                            )}
-                                            {!loadingOsm && (
-                                                <OsmInfo data={osmData} />
                                             )}
                                         </div>
                                     </Popup>

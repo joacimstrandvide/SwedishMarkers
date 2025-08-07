@@ -4,6 +4,7 @@ import 'reactjs-popup/dist/index.css'
 // Komponenter
 import About from './About'
 import Credits from './Credits'
+import Help from './Help'
 import styles from './Navbar.module.css'
 
 function Navbar({ selectedCategory, onCategoryChange }) {
@@ -43,6 +44,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                         <option value="/img/parking.webp">Parkering</option>
                     </select>
                 </div>
+                {/* Info */}
                 <Popup
                     trigger={<button className={styles.open}>Info</button>}
                     modal
@@ -59,6 +61,24 @@ function Navbar({ selectedCategory, onCategoryChange }) {
                         </div>
                     )}
                 </Popup>
+                {/* Hjälp */}
+                <Popup
+                    trigger={<button className={styles.open}>Hjälp</button>}
+                    modal
+                    nested
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <button className="close" onClick={close}>
+                                &times;
+                            </button>
+                            <div className="content">
+                                <Help />
+                            </div>
+                        </div>
+                    )}
+                </Popup>
+                {/* Credits */}
                 <Popup
                     trigger={<button className={styles.open}>Ikoner</button>}
                     modal

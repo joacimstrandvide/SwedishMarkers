@@ -29,21 +29,3 @@
     padding-right: 8px;
     box-sizing: content-box;
 }
-
-.osmInfo {
-    margin-top: 10px;
-}
-
-.osmScroll {
-    max-height: 200px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-.osmItem {
-    margin-bottom: 10px;
-}
-
-.osmItem div {
-    margin: 2px 0;
-}
