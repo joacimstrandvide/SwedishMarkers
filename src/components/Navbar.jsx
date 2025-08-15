@@ -24,7 +24,7 @@ function Navbar({ selectedCategory, onCategoryChange }) {
             <nav className={styles.navbar}>
                 {/* Titel */}
                 <h1>
-                    Swedish<strong>Markers</strong>
+                    Upptäck<strong>Sverige</strong>
                 </h1>
                 {/* Filtrering */}
                 <div className={styles.filter}>

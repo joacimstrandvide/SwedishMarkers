@@ -29,3 +29,22 @@
     padding-right: 8px;
     box-sizing: content-box;
 }
+
+.toogleSearch {
+    position: absolute;
+    bottom: 2rem;
+    right: 5rem;
+    z-index: 1000;
+    padding: .6rem;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 640px) {
+    .toogleSearch {
+        bottom: 3rem;
+    }
+}

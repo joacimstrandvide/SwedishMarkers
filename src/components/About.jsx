@@ -3,7 +3,7 @@ import styles from './About.module.css'
 function About() {
     return (
         <section className={styles.aboutContainer}>
-            <h2>Om SwedishMarkers</h2>
+            <h2>Om UpptäckSverige</h2>
             <p>
                 På denna sida kan du enkelt hitta intressanta och unika platser
                 runtom i Sverige

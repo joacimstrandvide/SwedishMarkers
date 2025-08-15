@@ -13,6 +13,7 @@ function Help() {
                 "restaurant", för att visa relevanta resultat inom det område
                 som visas på kartan. Information hämtas från overpass med openstreetmap.
             </p>
+            <p>Sök fältet kan även gömmas</p>
         </section>
     )
 }

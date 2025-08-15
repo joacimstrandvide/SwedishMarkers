@@ -13,15 +13,15 @@ import {
 } from 'react-leaflet'
 import { Icon, divIcon } from 'leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
-// Sök komponenten
+// Sök funktionen
 import OSMFetch from './OSMFetch'
-
-// Fixa default ikon när användaren söker
 import L from 'leaflet'
+// Ikonen när man söker
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
+// Fixar default ikonen när man söker
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: markerIcon2x,
@@ -31,8 +31,9 @@ L.Icon.Default.mergeOptions({
 
 function MapPart({ selectedCategory }) {
     const [data, setData] = useState([])
+    const [showOSMFetch, setShowOSMFetch] = useState(true)
 
-    // Hämta plats data
+    // Hämtar alla platser
     useEffect(() => {
         const fetchMarkers = async () => {
             try {
@@ -48,10 +49,10 @@ function MapPart({ selectedCategory }) {
         fetchMarkers()
     }, [])
 
-    // Skapa kluster ikon
+    // Kluster Ikon
     const createClusterIcon = (cluster) => {
         return new divIcon({
-            html: `<div className="circle">${cluster.getChildCount()}</div>`,
+            html: `<div class="circle">${cluster.getChildCount()}</div>`,
             iconSize: [33, 33],
             className: 'custom-cluster-icon'
         })
@@ -59,15 +60,28 @@ function MapPart({ selectedCategory }) {
 
     const markerRefs = useRef({})
 
+    // Filtera platser efter kategori
     const filteredData =
         selectedCategory === 'all'
             ? data
             : data.filter((marker) => marker.icon === selectedCategory)
 
     return (
-        <>
+        <div style={{ position: 'relative' }}>
+            {/* Knappen för att gömma / visa sök fältet */}
+            <button
+                className={styles.toogleSearch}
+                style={{
+                    backgroundColor: showOSMFetch ? '#d9534f' : '#5cb85c'
+                }}
+                onClick={() => setShowOSMFetch((prev) => !prev)}
+            >
+                {showOSMFetch ? 'Göm Sök' : 'Visa Sök'}
+            </button>
+
             <MapContainer center={[59.4036, 18.3297]} zoom={11}>
-                <OSMFetch />
+                {showOSMFetch && <OSMFetch />}
+
                 <LayersControl position="topright">
                     <LayersControl.BaseLayer checked name="OpenStreetMap">
                         <TileLayer
@@ -75,6 +89,7 @@ function MapPart({ selectedCategory }) {
                             url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                     </LayersControl.BaseLayer>
+
                     <LayersControl.BaseLayer name="Esri World Imagery">
                         <TileLayer
                             attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
@@ -108,7 +123,7 @@ function MapPart({ selectedCategory }) {
                         iconCreateFunction={createClusterIcon}
                     >
                         {filteredData.map((marker) => {
-                            const markerIcon = new Icon({
+                            const markerIconObj = new Icon({
                                 iconUrl: marker.icon
                                     ? `${process.env.PUBLIC_URL}${marker.icon}`
                                     : `${process.env.PUBLIC_URL}/img/location.webp`,
@@ -119,7 +134,7 @@ function MapPart({ selectedCategory }) {
                                 <Marker
                                     key={marker.id}
                                     position={[marker.lat, marker.lng]}
-                                    icon={markerIcon}
+                                    icon={markerIconObj}
                                     ref={(ref) =>
                                         (markerRefs.current[marker.id] = ref)
                                     }
@@ -144,7 +159,7 @@ function MapPart({ selectedCategory }) {
                     </MarkerClusterGroup>
                 </LayersControl>
             </MapContainer>
-        </>
+        </div>
     )
 }
 
