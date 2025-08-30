@@ -1,5 +1,5 @@
 import { useMap } from 'react-leaflet'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import styles from './OSMFetch.module.css'
@@ -9,8 +9,34 @@ export default function OsmFetcher() {
     const [searchTerm, setSearchTerm] = useState('')
     const [osmData, setOsmData] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [dropdownVisible, setDropdownVisible] = useState(false)
 
-    // Hitta området anänvdaren tittar på
+    const searchContainerRef = useRef(null)
+
+    const categories = [
+        'restaurant',
+        'cafe',
+        'bar',
+        'pub',
+        'atm',
+        'parking',
+    ]
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                searchContainerRef.current &&
+                !searchContainerRef.current.contains(event.target)
+            ) {
+                setDropdownVisible(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
     const fetchOsmByBounds = async (theme) => {
         if (!map) return
         const bounds = map.getBounds()
@@ -38,7 +64,6 @@ out center qt;
             const json = await response.json()
             setOsmData(json.elements)
 
-            // Zooma till resultat
             const locations = json.elements
                 .map((el) => {
                     if (el.lat && el.lon) return [el.lat, el.lon]
@@ -63,24 +88,43 @@ out center qt;
         e.preventDefault()
         if (searchTerm.trim() !== '') {
             fetchOsmByBounds(searchTerm.trim().toLowerCase())
+            setDropdownVisible(false)
         }
     }
 
     return (
-        <>
+        <div className={styles.searchContainer} ref={searchContainerRef}>
             <form className={styles.searchBar} onSubmit={handleSearch}>
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Sök..."
+                    onFocus={() => setDropdownVisible(true)}
+                    placeholder="Search..."
                 />
-                <button type="submit">Sök</button>
+                <button type="submit">Search</button>
             </form>
 
-            {loading && (
-                <div className={styles.loadingText}>Laddar OSM data...</div>
+            {dropdownVisible && (
+                <div className={styles.dropdown}>
+                    <h3>Suggestions:</h3>
+                    {categories.map((cat) => (
+                        <div
+                            key={cat}
+                            className={styles.dropdownTag}
+                            onClick={() => {
+                                setSearchTerm(cat)
+                                fetchOsmByBounds(cat)
+                                setDropdownVisible(false)
+                            }}
+                        >
+                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                        </div>
+                    ))}
+                </div>
             )}
+
+            {loading && <div>Loading data...</div>}
 
             {osmData &&
                 osmData.map((el) => {
@@ -90,8 +134,7 @@ out center qt;
                                 <Popup>
                                     {el.tags?.name ||
                                         el.tags?.amenity ||
-                                        'Namnlös'}
-                                    <br />
+                                        'Nameless'}
                                 </Popup>
                             </Marker>
                         )
@@ -106,8 +149,7 @@ out center qt;
                                 <Popup>
                                     {el.tags?.name ||
                                         el.tags?.amenity ||
-                                        'Namnlös'}
-                                    <br />
+                                        'Nameless'}
                                 </Popup>
                             </Marker>
                         )
@@ -115,6 +157,6 @@ out center qt;
 
                     return null
                 })}
-        </>
+        </div>
     )
 }

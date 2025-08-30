@@ -1,15 +1,19 @@
-.searchBar {
+.searchContainer {
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    width: 20rem;
+}
+
+.searchBar {
     display: flex;
     background: white;
     border-radius: 8px;
     padding: 0.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 20rem;
+    width: 100%;
 }
 
 .searchBar input {
@@ -17,7 +21,7 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
-    width: 15rem;
+    flex: 1;
     box-sizing: border-box;
 }
 
@@ -32,19 +36,49 @@
     font-weight: 600;
 }
 
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 0.5rem;
+}
+
+.dropdownCategory {
+    margin-bottom: 6px;
+}
+
+.dropdownTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.dropdownTag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.dropdownTag:hover {
+    background: #d0d0d0;
+}
+
 @media (max-width: 640px) {
-    .searchBar {
-        position: fixed;
-        width: 60dvw;
-        left: 50%;
-        transform: translateX(-50%);
-        max-height: 5rem;
-        padding: 0.5rem;
-        box-sizing: border-box;
+    .searchContainer {
+        width: 90vw;
+        top: 1rem;
     }
 
     .searchBar input {
-        width: 100%;
         padding: 0.5rem;
         font-size: 1rem;
     }

@@ -76,7 +76,7 @@ function MapPart({ selectedCategory }) {
                 }}
                 onClick={() => setShowOSMFetch((prev) => !prev)}
             >
-                {showOSMFetch ? 'Göm Sök' : 'Visa Sök'}
+                {showOSMFetch ? 'Hide Search' : 'Show Search'}
             </button>
 
             <MapContainer center={[59.4036, 18.3297]} zoom={11}>

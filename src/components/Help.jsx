@@ -3,17 +3,17 @@ import styles from './Help.module.css'
 function Help() {
     return (
         <section className={styles.helpContainer}>
-            <h2>Hjälp</h2>
+            <h2>Help</h2>
             <p>
-                Du kan filtrera platserna på kartan genom att öppna menyn och
-                välja en kategori.
+                You can filter the locations on the map by opening the menu and
+                selecting a category.
             </p>
             <p>
-                Du kan också söka efter specifika teman, som till exempel
-                "restaurant", för att visa relevanta resultat inom det område
-                som visas på kartan. Information hämtas från overpass med openstreetmap.
+                You can also search for specific themes, such as “restaurant,”
+                to display relevant results within the area shown on the map.
+                Information is retrieved from overpass using openstreetmap.
             </p>
-            <p>Sök fältet kan även gömmas</p>
+            <p>The search field can also be hidden</p>
         </section>
     )
 }

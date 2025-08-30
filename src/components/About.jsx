@@ -3,13 +3,13 @@ import styles from './About.module.css'
 function About() {
     return (
         <section className={styles.aboutContainer}>
-            <h2>Om UpptäckSverige</h2>
+            <h2>About SwedishMarkers</h2>
             <p>
-                På denna sida kan du enkelt hitta intressanta och unika platser
-                runtom i Sverige
+                On this page, you can easily find interesting and unique places
+                around Sweden.
             </p>
             <h3>
-                Skapad av{' '}
+                Created by{' '}
                 <a
                     href="https://www.strandvide.se"
                     target="_blank"
